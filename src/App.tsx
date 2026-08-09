@@ -194,6 +194,7 @@ function App() {
   const [step, setStep] = useState<Step>('welcome')
   const [dashboardState, setDashboardState] = useState<DemoDashboardState>('new-intros')
   const [mobileIntroVisible, setMobileIntroVisible] = useState(true)
+  const [supportNotice, setSupportNotice] = useState(false)
   const goNext = () => setStep(flow[Math.min(flow.indexOf(step) + 1, flow.length - 1)])
   const goBack = () => setStep(flow[Math.max(flow.indexOf(step) - 1, 0)])
   const restart = () => {
@@ -233,10 +234,12 @@ function App() {
             <button className={dashboardState === 'new-intros' ? 'is-active' : ''} onClick={() => { setDashboardState('new-intros'); setStep('dashboard') }}>New intros available</button>
             <button className={dashboardState === 'selected-me' ? 'is-active' : ''} onClick={() => { setDashboardState('selected-me'); setStep('dashboard') }}>A match has selected me</button>
             <button className={dashboardState === 'empty' ? 'is-active' : ''} onClick={() => { setDashboardState('empty'); setStep('dashboard') }}>No matches this week</button>
+            <button className={dashboardState === 'swipe-king' ? 'is-active' : ''} onClick={() => { setDashboardState('swipe-king'); setStep('dashboard') }}>Man is a Swipe King</button>
             <button onClick={() => setStep('dashboard')}>Skip onboarding</button>
             <button onClick={restart}>Restart demo</button>
           </div>
           <PhoneViewport>
+            {step !== 'dashboard' && <button className="global-support" onClick={() => { setSupportNotice(true); window.setTimeout(() => setSupportNotice(false), 2200) }} aria-label="Help and Support">?</button>}
             <div className="screen-transition" key={step}>
               {step === 'welcome' && <WelcomeScreen next={goNext} />}
               {step === 'age' && <AgeScreen next={goNext} back={goBack} />}
@@ -246,6 +249,7 @@ function App() {
               {step === 'success' && <SuccessScreen done={goNext} />}
               {step === 'dashboard' && <PrimaryExperience demoState={dashboardState} onDemoStateChange={setDashboardState} />}
             </div>
+            {supportNotice && <div className="prototype-toast global-support__notice" role="status">Help &amp; Support is simulated in this prototype.</div>}
           </PhoneViewport>
         </div>
       </div>
