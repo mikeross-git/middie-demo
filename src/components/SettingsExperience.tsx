@@ -6,7 +6,7 @@ type SettingsPage = 'main' | 'signin' | 'matching' | 'video' | 'membership' | 'h
 type SimulatedAction = 'upgrade' | 'cancel' | 'delete' | 'signout' | null
 
 function SettingsHeader({ onBack }: { onBack: () => void }) {
-  return <header className="settings-header"><button className="nav-icon nav-icon--back" onClick={onBack} aria-label="Go back" /><MiddieLogo compact /><span className="settings-header__help" aria-hidden="true">?</span></header>
+  return <header className="settings-header"><button className="nav-icon nav-icon--back" onClick={onBack} aria-label="Go back" /><MiddieLogo compact /><span /></header>
 }
 
 function SettingsTitle({ title, copy }: { title: string; copy: string }) {

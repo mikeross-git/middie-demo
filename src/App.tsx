@@ -57,6 +57,10 @@ function WelcomeScreen({ next }: { next: () => void }) {
 function AgeScreen({ next, back }: { next: () => void; back: () => void }) {
   const [birthDate, setBirthDate] = useState('05/14/1992')
   const [confirmed, setConfirmed] = useState(false)
+  const updateBirthDate = (value: string) => {
+    const digits = value.replace(/\D/g, '').slice(0, 8)
+    setBirthDate([digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8)].filter(Boolean).join('/'))
+  }
   return (
     <div className="onboarding-screen form-screen">
       <ScreenHeader onBack={back} />
@@ -66,7 +70,7 @@ function AgeScreen({ next, back }: { next: () => void; back: () => void }) {
       <div className="form-stack">
         <label className="prototype-field">
           <span>DATE OF BIRTH</span>
-          <span className="prototype-field__control"><i><AppIcon name="calendar" /></i><input value={birthDate} inputMode="numeric" onChange={(e) => setBirthDate(e.target.value)} aria-label="Date of birth" /></span>
+          <span className="prototype-field__control"><i><AppIcon name="calendar" /></i><input value={birthDate} inputMode="numeric" maxLength={10} placeholder="MM/DD/YYYY" onChange={(e) => updateBirthDate(e.target.value)} aria-label="Date of birth in month day year format" /></span>
         </label>
         <label className="check-row">
           <input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} />
@@ -104,7 +108,7 @@ function IdentityScreen({ next, back }: { next: () => void; back: () => void }) 
         <p className="field-note">You can update these preferences<br />later in settings.</p>
         <PrimaryButton onClick={next}>Continue</PrimaryButton>
       </div>
-      <p className="privacy-note"><span aria-hidden="true">▣</span>Your preferences are used<br />only for matching.</p>
+      <p className="privacy-note"><span><AppIcon name="lock" /></span>Your preferences are used<br />only for matching.</p>
     </div>
   )
 }
@@ -150,7 +154,7 @@ function VideoScreen({ next, back }: { next: () => void; back: () => void }) {
   return (
     <div className={`onboarding-screen camera-screen camera-screen--${recordingState}`}>
       <header className="camera-header">
-        <button onClick={back} aria-label="Close camera">×</button><MiddieLogo compact /><span className="camera-help" aria-hidden="true">?</span>
+        <button onClick={back} aria-label="Close camera">×</button><MiddieLogo compact /><span />
       </header>
       <div className="camera-copy">
         <ScreenTitle support={<>A short, candid video goes<br />a long way.</>}>Introduce yourself.</ScreenTitle>
@@ -194,7 +198,6 @@ function App() {
   const [step, setStep] = useState<Step>('welcome')
   const [dashboardState, setDashboardState] = useState<DemoDashboardState>('new-intros')
   const [mobileIntroVisible, setMobileIntroVisible] = useState(true)
-  const [supportNotice, setSupportNotice] = useState(false)
   const goNext = () => setStep(flow[Math.min(flow.indexOf(step) + 1, flow.length - 1)])
   const goBack = () => setStep(flow[Math.max(flow.indexOf(step) - 1, 0)])
   const restart = () => {
@@ -239,7 +242,6 @@ function App() {
             <button onClick={restart}>Restart demo</button>
           </div>
           <PhoneViewport>
-            {step !== 'dashboard' && <button className="global-support" onClick={() => { setSupportNotice(true); window.setTimeout(() => setSupportNotice(false), 2200) }} aria-label="Help and Support">?</button>}
             <div className="screen-transition" key={step}>
               {step === 'welcome' && <WelcomeScreen next={goNext} />}
               {step === 'age' && <AgeScreen next={goNext} back={goBack} />}
@@ -249,7 +251,6 @@ function App() {
               {step === 'success' && <SuccessScreen done={goNext} />}
               {step === 'dashboard' && <PrimaryExperience demoState={dashboardState} onDemoStateChange={setDashboardState} />}
             </div>
-            {supportNotice && <div className="prototype-toast global-support__notice" role="status">Help &amp; Support is simulated in this prototype.</div>}
           </PhoneViewport>
         </div>
       </div>
