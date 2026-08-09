@@ -3,6 +3,7 @@ import { incomingMatches, weeklyIntros, type IntroProfile, type MatchProfile } f
 import { PrimaryButton, SecondaryButton } from './Buttons'
 import { MiddieLogo } from './MiddieLogo'
 import { SettingsExperience } from './SettingsExperience'
+import { AppIcon } from './AppIcon'
 
 export type DemoDashboardState = 'new-intros' | 'selected-me' | 'empty'
 
@@ -58,7 +59,7 @@ function VideoSheet({ profile, onClose }: { profile: IntroProfile; onClose: () =
     <div className="video-sheet-backdrop" role="presentation" onMouseDown={onClose}>
       <section className="video-sheet" role="dialog" aria-modal="true" aria-label={`${profile.name}'s intro video`} onMouseDown={(event) => event.stopPropagation()}>
         <button className="video-sheet__close" onClick={onClose} aria-label="Close video">×</button>
-        <Portrait profile={profile} className="video-sheet__poster" />
+        <div className="video-sheet__poster video-sample-poster" role="img" aria-label={`Simulated video poster for ${profile.name}`} />
         <div className="video-sheet__shade"><span className="video-sheet__play">▶</span><p>INTRODUCING</p><h2>{profile.name}, {profile.age}</h2><small>Simulated intro video</small></div>
         <div className="video-sheet__progress"><span style={{ width: `${progress}%` }} /></div>
       </section>
@@ -87,7 +88,7 @@ function WomanIntros({ onHowItWorks }: { onHowItWorks: () => void }) {
           return <article className="intro-card" key={profile.id}>
             <Portrait profile={profile} />
             <div className="intro-card__copy"><h2>{profile.name}, {profile.age}<i /></h2><p>{profile.bio}</p><button onClick={() => setVideo(profile)}>VIEW VIDEO <span>▶</span></button></div>
-            <button className={isShared ? 'share-button is-shared' : 'share-button'} onClick={() => share(profile)}><span>{isShared ? '✓' : '◎'}</span>{isShared ? 'SHARED' : 'SHARE IG'}</button>
+            <button className={isShared ? 'share-button is-shared' : 'share-button'} onClick={() => share(profile)}><span>{isShared ? <AppIcon name="check" /> : <AppIcon name="instagram" />}</span>{isShared ? 'SHARED' : 'SHARE IG'}</button>
           </article>
         })}
       </div>

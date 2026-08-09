@@ -154,8 +154,7 @@ button { color: inherit; }
 .phone-viewport__content::-webkit-scrollbar { display: none; }
 
 .app-header {
-  position: sticky;
-  top: 0;
+  position: static;
   z-index: 2;
   display: grid;
   grid-template-columns: 44px 1fr 44px;
@@ -321,9 +320,8 @@ button { color: inherit; }
   min-height: 100%;
   color: var(--paper);
   background:
-    linear-gradient(rgb(0 0 0 / 54%), rgb(0 0 0 / 78%)),
-    radial-gradient(circle at 7% 34%, rgb(89 75 39 / 22%), transparent 24%),
-    radial-gradient(circle at 90% 30%, rgb(104 61 39 / 18%), transparent 22%),
+    linear-gradient(rgb(0 0 0 / 52%), rgb(0 0 0 / 78%)),
+    url('/assets/middie-library-bg.png') center / cover no-repeat,
     #080807;
 }
 
@@ -390,7 +388,7 @@ button { color: inherit; }
 .radius-note { display: flex; align-items: center; justify-content: center; gap: 13px; margin: 0; font-family: var(--serif); font-size: 1.15rem; line-height: 1.12; }
 .radius-note span { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #e31c22; border-radius: 50%; font-size: 1.5rem; }
 
-.camera-screen { display: flex; flex-direction: column; background: linear-gradient(rgb(0 0 0 / 38%), rgb(0 0 0 / 82%)), radial-gradient(circle at 70% 35%, #332d28, transparent 35%), radial-gradient(circle at 16% 42%, #2d2d1e, transparent 28%), #080807; }
+.camera-screen { display: flex; flex-direction: column; background: linear-gradient(rgb(0 0 0 / 34%), rgb(0 0 0 / 80%)), url('/assets/middie-library-bg.png') center / cover no-repeat, #080807; }
 .camera-header { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; min-height: 90px; padding: 20px 24px 0; border-bottom: 1px solid #191817; text-align: center; background: rgb(0 0 0 / 42%); }
 .camera-header button { border: 0; color: white; background: transparent; font-size: 2.3rem; font-weight: 200; cursor: pointer; }
 .camera-help { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid white; border-radius: 50%; font-size: 1rem; }
@@ -437,7 +435,7 @@ button { color: inherit; }
 .dashboard-card h2 { margin: 12px 0; font-family: var(--serif); font-size: 1.8rem; font-weight: 400; line-height: 1.12; }
 .dashboard-card p { margin: 0; color: #99938c; font-size: .78rem; line-height: 1.5; }
 
-.primary-experience { position: relative; min-height: 100%; padding-bottom: 35px; background: #070706; }
+.primary-experience { position: relative; min-height: 100%; padding-bottom: 35px; background: linear-gradient(rgb(0 0 0 / 76%), rgb(0 0 0 / 87%)), url('/assets/middie-library-bg.png') center top / cover no-repeat, #070706; }
 .experience-header { display: grid; grid-template-columns: 42px 1fr 42px; align-items: center; min-height: 87px; padding: 20px 24px 0; text-align: center; }
 .experience-header .middie-logo { font-size: 1.85rem; }
 .experience-header__gear { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid #e9e4dd; border-radius: 50%; color: #e9e4dd; }
@@ -448,25 +446,28 @@ button { color: inherit; }
 .experience-title p { margin: 0; color: #d5d0c9; font-size: .8rem; line-height: 1.55; }
 .intro-list, .match-list { display: grid; gap: 7px; padding: 0 15px; }
 .intro-card { display: grid; min-height: 123px; grid-template-columns: 123px 1fr 61px; overflow: hidden; border: 1px solid #292724; border-radius: 7px; background: #090908; }
-.mock-portrait { position: relative; overflow: hidden; min-height: 120px; background: linear-gradient(145deg, #42372d, #151617 55%, #292017); isolation: isolate; }
-.mock-portrait::after { content: ""; position: absolute; inset: 0; z-index: 3; background: linear-gradient(90deg, transparent 50%, rgb(0 0 0 / 22%)), radial-gradient(circle at 25% 22%, rgb(222 166 104 / 18%), transparent 26%); }
+.mock-portrait { position: relative; overflow: hidden; min-height: 120px; background-image: url('/assets/middie-profile-sheet.png'); background-repeat: no-repeat; background-size: 300% 300%; background-color: #171410; isolation: isolate; }
+.mock-portrait::after { content: ""; position: absolute; inset: 0; z-index: 3; background: linear-gradient(90deg, transparent 58%, rgb(0 0 0 / 18%)); }
+.mock-portrait > span { display: none; }
 .mock-portrait__light { position: absolute; top: 13%; right: 10%; width: 9px; height: 9px; border-radius: 50%; background: #e8a74f; box-shadow: 0 0 18px 8px rgb(220 132 43 / 24%); }
 .mock-portrait__head { position: absolute; z-index: 2; top: 16%; left: 50%; width: 48%; height: 51%; translate: -50% 0; border-radius: 46% 46% 42% 42%; background: linear-gradient(125deg, #9c6548, #c48762 50%, #70422f 51%, #5c3427); box-shadow: inset 8px 0 14px rgb(255 205 160 / 10%); }
 .mock-portrait__head::before { content: ""; position: absolute; inset: -10% -6% 54%; border-radius: 60% 60% 25% 25%; background: #171310; box-shadow: 0 8px 0 #171310; }
 .mock-portrait__body { position: absolute; z-index: 1; bottom: -18%; left: 50%; width: 86%; height: 60%; translate: -50% 0; border-radius: 50% 50% 0 0; background: #151515; }
-.mock-portrait--ben { background: linear-gradient(145deg, #68513b, #1c1c19 58%, #443326); }
+.mock-portrait--alex { background-position: 0 0; }
+.mock-portrait--ben { background-position: 50% 0; }
 .mock-portrait--ben .mock-portrait__head { background: linear-gradient(125deg, #a86d4e, #d3976c 50%, #6e4533 51%); }
-.mock-portrait--chris { background: linear-gradient(145deg, #4f4c39, #11191a 58%, #342d21); }
+.mock-portrait--chris { background-position: 100% 0; }
 .mock-portrait--chris .mock-portrait__head { background: linear-gradient(125deg, #a66d4e, #c98c67 50%, #714533 51%); }
 .mock-portrait--chris .mock-portrait__head::before { inset: -15% -14% 48%; border-radius: 70% 60% 30% 30%; }
-.mock-portrait--david { background: linear-gradient(145deg, #66533d, #181b1d 58%, #29201a); }
+.mock-portrait--david { background-position: 0 50%; }
 .mock-portrait--david .mock-portrait__head { background: linear-gradient(125deg, #70412d, #9a5e40 50%, #43261d 51%); }
 .mock-portrait--david .mock-portrait__head::before { inset: -12% -8% 58%; border-radius: 45%; background: #100e0c; }
-.mock-portrait--matt { background: linear-gradient(145deg, #4c382d, #151718 56%, #30271e); }
+.mock-portrait--matt { background-position: 50% 50%; }
 .mock-portrait--matt .mock-portrait__head::before { inset: -16% -15% 50%; border-radius: 65% 40% 38% 30%; }
-.mock-portrait--samantha, .mock-portrait--elena { background: linear-gradient(145deg, #503726, #171313 56%, #3b211a); }
-.mock-portrait--olivia { background: linear-gradient(145deg, #6c5940, #17201e 56%, #3a2b23); }
-.mock-portrait--maya { background: linear-gradient(145deg, #9a7550, #2a2820 56%, #433326); }
+.mock-portrait--samantha { background-position: 100% 50%; }
+.mock-portrait--olivia { background-position: 0 100%; }
+.mock-portrait--maya { background-position: 50% 100%; }
+.mock-portrait--elena { background-position: 100% 100%; }
 .mock-portrait--samantha .mock-portrait__head::before, .mock-portrait--olivia .mock-portrait__head::before, .mock-portrait--maya .mock-portrait__head::before, .mock-portrait--elena .mock-portrait__head::before { inset: -13% -25% 18%; border-radius: 55% 55% 42% 42%; background: #1d1411; box-shadow: none; }
 .mock-portrait--olivia .mock-portrait__head::before { background: #18120e; }
 .mock-portrait--maya .mock-portrait__head::before { background: #24160f; }
@@ -488,6 +489,7 @@ button { color: inherit; }
 .video-sheet { position: relative; width: 100%; height: 72%; overflow: hidden; border: 1px solid #4b4239; border-radius: 12px 12px 4px 4px; background: #111; box-shadow: 0 -20px 60px rgb(0 0 0 / 60%); }
 .video-sheet__close { position: absolute; top: 14px; right: 14px; z-index: 5; display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid rgb(255 255 255 / 45%); border-radius: 50%; color: white; background: rgb(0 0 0 / 45%); font-size: 1.5rem; cursor: pointer; }
 .video-sheet__poster { position: absolute; inset: 0; height: 100%; }
+.video-sample-poster { background: url('/assets/middie-video-poster.png') center 24% / cover no-repeat; }
 .video-sheet__poster .mock-portrait__head { top: 13%; width: 48%; height: 46%; }
 .video-sheet__shade { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 42px 25px; background: linear-gradient(transparent 35%, rgb(0 0 0 / 88%)); text-align: center; }
 .video-sheet__play { display: grid; width: 57px; height: 57px; margin-bottom: 24px; place-items: center; border: 1px solid #fff; border-radius: 50%; padding-left: 4px; }
@@ -570,7 +572,7 @@ button { color: inherit; }
 
 .experience-with-settings { position: relative; min-height: 100%; }
 .settings-entry { position: absolute; z-index: 8; top: 42px; right: 24px; display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid #e9e4dd; border-radius: 50%; color: #e9e4dd; background: #080807; font-size: .83rem; cursor: pointer; }
-.settings-screen { position: relative; min-height: 100%; padding-bottom: 35px; background: linear-gradient(120deg, rgb(26 20 16 / 35%), transparent 24%), #080807; }
+.settings-screen { position: relative; min-height: 100%; padding-bottom: 35px; background: linear-gradient(rgb(0 0 0 / 74%), rgb(0 0 0 / 86%)), url('/assets/middie-library-bg.png') center top / cover no-repeat, #080807; }
 .settings-header { display: grid; grid-template-columns: 42px 1fr 42px; align-items: center; min-height: 86px; padding: 20px 27px 0; text-align: center; }
 .settings-header .middie-logo { font-size: 1.8rem; }
 .settings-header__help { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid #e7e1da; border-radius: 50%; color: #e7e1da; }
@@ -615,7 +617,8 @@ button { color: inherit; }
 
 .current-video { margin: 0 29px; overflow: hidden; border: 1px solid #3a3632; border-radius: 7px; }
 .current-video > span { display: block; padding: 11px 14px; color: #aaa49d; font-size: .67rem; }
-.current-video__portrait { position: relative; height: 265px; overflow: hidden; background: radial-gradient(circle at 50% 32%, #78513b, #2a231e 30%, #10100f 66%); }
+.current-video__portrait { position: relative; height: 265px; overflow: hidden; background: linear-gradient(rgb(0 0 0 / 8%), rgb(0 0 0 / 28%)), url('/assets/middie-video-poster.png') center 27% / cover no-repeat; }
+.current-video__portrait > i, .current-video__portrait > b { display: none; }
 .current-video__portrait i { position: absolute; top: 15%; left: 50%; width: 86px; height: 105px; translate: -50% 0; border-radius: 45%; background: linear-gradient(110deg, #9b6548, #ca8d63 53%, #5e3628 54%); }
 .current-video__portrait i::before { content: ""; position: absolute; inset: -12% -8% 60%; border-radius: 60% 60% 20% 20%; background: #1b1512; }
 .current-video__portrait b { position: absolute; right: 15%; bottom: -22%; left: 15%; height: 66%; border-radius: 50% 50% 0 0; background: #121212; }

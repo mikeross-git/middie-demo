@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { DemoNotice, DemoShell, MiddieLogo, PhoneViewport, PrimaryButton, PrimaryExperience, type DemoDashboardState } from './components'
+import { AppIcon, DemoNotice, DemoShell, MiddieLogo, PhoneViewport, PrimaryButton, PrimaryExperience, type DemoDashboardState } from './components'
 
 type Step = 'welcome' | 'age' | 'identity' | 'location' | 'video' | 'success' | 'dashboard'
 type Gender = 'Male' | 'Female'
@@ -44,9 +44,9 @@ function WelcomeScreen({ next }: { next: () => void }) {
         </ScreenTitle>
       </div>
       <div className="auth-buttons">
-        <PrimaryButton onClick={next}><span aria-hidden="true">✉</span>Continue with Email</PrimaryButton>
-        <button className="auth-button" onClick={next}><span className="google-g" aria-hidden="true">G</span>Continue with Google</button>
-        <button className="auth-button" onClick={next}><span aria-hidden="true">●</span>Continue with Phone</button>
+        <PrimaryButton onClick={next}><span><AppIcon name="mail" /></span>Continue with Email</PrimaryButton>
+        <button className="auth-button" onClick={next}><span><AppIcon name="google" /></span>Continue with Google</button>
+        <button className="auth-button" onClick={next}><span><AppIcon name="phone" /></span>Continue with Phone</button>
       </div>
       <p className="inline-prompt">Already have an account? <span>Sign in</span></p>
       <p className="legal-copy">By continuing, you agree to our<br /><span>Terms</span> and <span>Privacy Policy</span>.</p>
@@ -66,7 +66,7 @@ function AgeScreen({ next, back }: { next: () => void; back: () => void }) {
       <div className="form-stack">
         <label className="prototype-field">
           <span>DATE OF BIRTH</span>
-          <span className="prototype-field__control"><i aria-hidden="true">▣</i><input value={birthDate} inputMode="numeric" onChange={(e) => setBirthDate(e.target.value)} aria-label="Date of birth" /></span>
+          <span className="prototype-field__control"><i><AppIcon name="calendar" /></i><input value={birthDate} inputMode="numeric" onChange={(e) => setBirthDate(e.target.value)} aria-label="Date of birth" /></span>
         </label>
         <label className="check-row">
           <input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} />
@@ -75,7 +75,7 @@ function AgeScreen({ next, back }: { next: () => void; back: () => void }) {
         </label>
         <PrimaryButton disabled={!confirmed} onClick={next}>Continue</PrimaryButton>
       </div>
-      <p className="privacy-note"><span aria-hidden="true">▣</span>Your age is kept private.<br />We’ll never share it or show it on your profile.</p>
+      <p className="privacy-note"><span><AppIcon name="lock" /></span>Your age is kept private.<br />We’ll never share it or show it on your profile.</p>
     </div>
   )
 }
@@ -119,13 +119,13 @@ function LocationScreen({ next, back }: { next: () => void; back: () => void }) 
       <div className="form-stack">
         <label className="prototype-field">
           <span>ZIP CODE</span>
-          <span className="prototype-field__control"><i aria-hidden="true">⌖</i><input value={zip} inputMode="numeric" maxLength={5} onChange={(e) => setZip(e.target.value.replace(/\D/g, ''))} aria-label="ZIP code" /></span>
+          <span className="prototype-field__control"><i><AppIcon name="pin" /></i><input value={zip} inputMode="numeric" maxLength={5} onChange={(e) => setZip(e.target.value.replace(/\D/g, ''))} aria-label="ZIP code" /></span>
         </label>
         <ChoiceGroup label="MATCH DISTANCE" options={distanceOptions} value={distance} onChange={setDistance} />
         <p className="radius-note"><span aria-hidden="true">✧</span>The wider your radius,<br />the better your matches.</p>
         <PrimaryButton onClick={next}>Continue</PrimaryButton>
       </div>
-      <p className="privacy-note"><span aria-hidden="true">▣</span>Your location is used only for matching<br />and is never shown publicly.</p>
+      <p className="privacy-note"><span><AppIcon name="lock" /></span>Your location is used only for matching<br />and is never shown publicly.</p>
     </div>
   )
 }
@@ -182,9 +182,9 @@ function SuccessScreen({ done }: { done: () => void }) {
     <div className="onboarding-screen success-screen">
       <MiddieLogo compact />
       <ScreenTitle support="Your intro has been submitted. Now give us a little time — we’re finding people who are a strong fit for you.">You’re all set.</ScreenTitle>
-      <div className="success-envelope"><div><span>✓</span></div></div>
-      <div className="review-note"><span aria-hidden="true">◷</span><p>Be patient — we’re reviewing videos<br />and making thoughtful introductions.</p></div>
-      <p className="match-schedule"><span aria-hidden="true">▣</span>New matches every Sunday.</p>
+      <div className="success-envelope"><div><span><AppIcon name="check" size={34} /></span></div></div>
+      <div className="review-note"><span><AppIcon name="clock" /></span><p>Be patient — we’re reviewing videos<br />and making thoughtful introductions.</p></div>
+      <p className="match-schedule"><span><AppIcon name="calendar" /></span>New matches every Sunday.</p>
       <PrimaryButton onClick={done}>Done</PrimaryButton>
     </div>
   )

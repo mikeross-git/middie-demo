@@ -1,4 +1,5 @@
 export * from './AppHeader'
+export * from './AppIcon'
 export * from './Buttons'
 export * from './DemoNotice'
 export * from './DemoShell'
