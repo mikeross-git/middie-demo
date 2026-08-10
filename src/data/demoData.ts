@@ -16,7 +16,7 @@ export type MatchProfile = IntroProfile & {
 
 export const weeklyIntros: IntroProfile[] = [
   { id: 'alex', name: 'Alex', age: 31, bio: 'Architect who collects vintage guitars and passport stamps.', portrait: 'alex' },
-  { id: 'ben', name: 'Ben', age: 28, bio: 'Coffee fanatic. Road trip enthusiast. Knicks sufferer.', portrait: 'ben' },
+  { id: 'ben', name: 'Ben', age: 28, bio: 'Coffee fanatic. Road trip enthusiast. Browns sufferer.', portrait: 'ben' },
   { id: 'chris', name: 'Chris', age: 32, bio: 'Surfer, chef, dog dad. Always up for something real.', portrait: 'chris' },
   { id: 'david', name: 'David', age: 30, bio: 'Entrepreneur with a weakness for live music and late nights.', portrait: 'david' },
   { id: 'matt', name: 'Matt', age: 29, bio: 'Loves to write, play tennis, and laugh too loud.', portrait: 'matt' },
