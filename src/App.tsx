@@ -182,7 +182,7 @@ function VideoScreen({ next, back }: { next: () => void; back: () => void }) {
           <div className="recorded-preview">
             <span className="recorded-preview__check">✓</span>
             <strong>Looking good.</strong>
-            <small>Your simulated intro is ready.</small>
+            <small>Your simulated video is ready.</small>
             <PrimaryButton onClick={next}>Use this video</PrimaryButton>
             <button className="text-button" onClick={() => setRecordingState('ready')}>Record again</button>
           </div>
@@ -203,10 +203,10 @@ function SuccessScreen({ done }: { done: () => void }) {
   return (
     <div className="onboarding-screen success-screen">
       <MiddieLogo compact />
-      <ScreenTitle support={<>Your 30-second intro has been submitted.<br />We’ll send your 5 introductions on Sunday.</>}>You’re all set.</ScreenTitle>
+      <ScreenTitle support={<>Your 30-second video has been submitted.<br />We’ll send your 5 matches on Sunday.</>}>You’re all set.</ScreenTitle>
       <div className="success-hero" role="img" aria-label="A black invitation envelope with a glowing gold check mark" />
       <div className="review-note"><span><AppIcon name="clock" /></span><p>Until then, we’re reviewing videos<br />and preparing thoughtful matches.</p></div>
-      <p className="match-schedule"><span><AppIcon name="calendar" /></span>New introductions every Sunday.</p>
+      <p className="match-schedule"><span><AppIcon name="calendar" /></span>New matches every Sunday.</p>
       <PrimaryButton onClick={done}>Done</PrimaryButton>
       <button className="success-watch" onClick={() => { setVideoNotice(true); window.setTimeout(() => setVideoNotice(false), 2200) }}>Watch My Video</button>
       {videoNotice && <div className="prototype-toast" role="status">This would replay your simulated introduction video.</div>}
@@ -247,7 +247,6 @@ function App() {
     <DemoShell notice={<DemoNotice />}>
       <div className="public-demo-layout">
         <aside className={mobileIntroVisible ? 'public-demo-intro is-mobile-visible' : 'public-demo-intro'}>
-          <a className="public-demo-intro__exit" href="https://middie.app" aria-label="Return to the Middie website">← Middie.app</a>
           <p className="public-demo-intro__eyebrow">INTERACTIVE PROTOTYPE</p>
           <h1>Try Middie.</h1>
           <span className="public-demo-intro__rule" />
