@@ -5,7 +5,7 @@ import { MiddieLogo } from './MiddieLogo'
 import { SettingsExperience } from './SettingsExperience'
 import { AppIcon } from './AppIcon'
 
-export type DemoDashboardState = 'new-intros' | 'selected-me' | 'empty' | 'swipe-king'
+export type DemoDashboardState = 'new-intros' | 'selected-me' | 'empty' | 'swipe-king' | 'woman-profile'
 
 type PrimaryExperienceProps = {
   demoState: DemoDashboardState
@@ -81,7 +81,7 @@ function WomanIntros({ onHowItWorks }: { onHowItWorks: () => void }) {
   return (
     <div className="primary-experience">
       <ExperienceHeader />
-      <ExperienceTitle title="Your New Intros"><p>You have 5 new matches this week.<br />Choose someone to share your Instagram with.</p></ExperienceTitle>
+      <ExperienceTitle title="Your New Matches"><p>You have 5 new matches this week.<br />Choose someone to share your Instagram with.</p></ExperienceTitle>
       <div className="intro-list">
         {weeklyIntros.map((profile) => {
           const isShared = shared.includes(profile.id)
@@ -100,7 +100,7 @@ function WomanIntros({ onHowItWorks }: { onHowItWorks: () => void }) {
 }
 
 function MatchList({ onSelect, onHowItWorks }: { onSelect: (profile: MatchProfile) => void; onHowItWorks: () => void }) {
-  return <div className="primary-experience"><ExperienceHeader /><ExperienceTitle title="Your Matches"><p>These women chose to meet you this week.<br />Tap a match to view her profile and Instagram.</p></ExperienceTitle><div className="match-list">{incomingMatches.map((profile) => <button className="match-card" key={profile.id} onClick={() => onSelect(profile)}><Portrait profile={profile} /><span className="match-card__copy"><strong>{profile.name}, {profile.age}<i /></strong><span>{profile.bio}</span><em>VIEW PROFILE</em></span></button>)}</div><FooterCopy onHowItWorks={onHowItWorks} /></div>
+  return <div className="primary-experience"><ExperienceHeader /><ExperienceTitle title="Your Intros"><p>Congratulations! These women have asked for an introduction this week.<br />Tap an intro to view her profile and Instagram.</p></ExperienceTitle><div className="match-list">{incomingMatches.map((profile) => <button className="match-card" key={profile.id} onClick={() => onSelect(profile)}><Portrait profile={profile} /><span className="match-card__copy"><strong>{profile.name}, {profile.age}<i /></strong><span>{profile.bio}</span><em>VIEW PROFILE</em></span></button>)}</div><FooterCopy onHowItWorks={onHowItWorks} /></div>
 }
 
 function ProfileDetail({ profile, onBack }: { profile: MatchProfile; onBack: () => void }) {
@@ -115,7 +115,7 @@ function ManMatches({ onHowItWorks }: { onHowItWorks: () => void }) {
 
 function EmptyMatches({ onHowItWorks }: { onHowItWorks: () => void }) {
   const [active, setActive] = useState(false)
-  return <div className="primary-experience empty-matches"><ExperienceHeader /><ExperienceTitle title="Your Matches"><h2>No new matches this week.</h2><p>Good things take a minute. We’re still sharing your profile with thoughtful women who want something real.</p><p>Check back next Sunday for new matches.</p></ExperienceTitle><div className="empty-matches__scene" role="img" aria-label="A warm library lounge with a chair, lamp, and glowing invitation envelope" /><div className="empty-matches__actions"><PrimaryButton onClick={() => setActive(true)}>{active ? 'PROFILE ACTIVE' : 'KEEP PROFILE ACTIVE'}</PrimaryButton><button onClick={onHowItWorks}>HOW IT WORKS</button></div><p className="empty-matches__sunday"><span>♡</span>New matches every Sunday.</p>{active && <div className="prototype-toast" role="status">Your profile will stay active for next Sunday’s introductions.</div>}</div>
+  return <div className="primary-experience empty-matches"><ExperienceHeader /><ExperienceTitle title="Your Intros"><h2>No new intros this week.</h2><p>Good things take a minute. We’re still sharing your profile with thoughtful women who want something real.</p><p>Check back next Sunday for new intros.</p></ExperienceTitle><div className="empty-matches__scene" role="img" aria-label="A warm library lounge with a chair, lamp, and glowing invitation envelope" /><div className="empty-matches__actions"><PrimaryButton onClick={() => setActive(true)}>{active ? 'PROFILE ACTIVE' : 'KEEP PROFILE ACTIVE'}</PrimaryButton><button onClick={onHowItWorks}>HOW IT WORKS</button></div><p className="empty-matches__sunday"><span>♡</span>New intros every Sunday.</p>{active && <div className="prototype-toast" role="status">Your profile will stay active for next Sunday’s introductions.</div>}</div>
 }
 
 function SwipeKing() {
@@ -133,5 +133,5 @@ export function PrimaryExperience({ demoState, onDemoStateChange }: PrimaryExper
   const [showSettings, setShowSettings] = useState(false)
   const choose = (value: DemoDashboardState) => { onDemoStateChange(value); setMenuOpen(false) }
   if (showSettings) return <SettingsExperience onClose={() => setShowSettings(false)} />
-  return <div className="experience-with-settings"><button className="settings-entry" onClick={() => setShowSettings(true)} aria-label="Open Settings">⚙</button><button className="mobile-persona-trigger" onClick={() => setMenuOpen(!menuOpen)}>Demo</button>{menuOpen && <div className="mobile-persona-menu"><span>Demo state</span><button className={demoState === 'new-intros' ? 'is-active' : ''} onClick={() => choose('new-intros')}>New intros available</button><button className={demoState === 'selected-me' ? 'is-active' : ''} onClick={() => choose('selected-me')}>A match has selected me</button><button className={demoState === 'empty' ? 'is-active' : ''} onClick={() => choose('empty')}>No matches this week</button><button className={demoState === 'swipe-king' ? 'is-active' : ''} onClick={() => choose('swipe-king')}>Man is a Swipe King</button></div>}{demoState === 'new-intros' && <WomanIntros onHowItWorks={() => setShowHow(true)} />}{demoState === 'selected-me' && <ManMatches onHowItWorks={() => setShowHow(true)} />}{demoState === 'empty' && <EmptyMatches onHowItWorks={() => setShowHow(true)} />}{demoState === 'swipe-king' && <SwipeKing />}{showHow && <HowItWorksSheet onClose={() => setShowHow(false)} />}</div>
+  return <div className="experience-with-settings"><button className="settings-entry" onClick={() => setShowSettings(true)} aria-label="Open Settings">⚙</button><button className="mobile-persona-trigger" onClick={() => setMenuOpen(!menuOpen)}>Demo</button>{menuOpen && <div className="mobile-persona-menu"><span>Skip to a screen</span><button className={demoState === 'new-intros' ? 'is-active' : ''} onClick={() => choose('new-intros')}>Weekly matches for a woman</button><button className={demoState === 'selected-me' ? 'is-active' : ''} onClick={() => choose('selected-me')}>Weekly intros for a man</button><button className={demoState === 'woman-profile' ? 'is-active' : ''} onClick={() => choose('woman-profile')}>Woman shares her Instagram</button><button className={demoState === 'empty' ? 'is-active' : ''} onClick={() => choose('empty')}>No intros this week</button><button className={demoState === 'swipe-king' ? 'is-active' : ''} onClick={() => choose('swipe-king')}>Man is too hot for Middie</button></div>}{demoState === 'new-intros' && <WomanIntros onHowItWorks={() => setShowHow(true)} />}{demoState === 'selected-me' && <ManMatches onHowItWorks={() => setShowHow(true)} />}{demoState === 'woman-profile' && <ProfileDetail profile={incomingMatches[0]} onBack={() => choose('selected-me')} />}{demoState === 'empty' && <EmptyMatches onHowItWorks={() => setShowHow(true)} />}{demoState === 'swipe-king' && <SwipeKing />}{showHow && <HowItWorksSheet onClose={() => setShowHow(false)} />}</div>
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { AppIcon, DemoNotice, DemoShell, MiddieLogo, PhoneViewport, PrimaryButton, PrimaryExperience, type DemoDashboardState } from './components'
 
-type Step = 'welcome' | 'age' | 'identity' | 'location' | 'video' | 'success' | 'dashboard'
+type Step = 'welcome' | 'email-signup' | 'google-signup' | 'phone-signup' | 'age' | 'identity' | 'location' | 'video' | 'success' | 'dashboard'
+type AuthMethod = 'email' | 'google' | 'phone'
 type Gender = 'Male' | 'Female'
 type MatchPreference = Gender | 'Male & Female'
 type Distance = '10 miles' | '25 miles' | '50 miles' | '100 miles' | 'No preference'
@@ -34,7 +35,7 @@ function ScreenTitle({ children, support }: { children: React.ReactNode; support
   )
 }
 
-function WelcomeScreen({ next }: { next: () => void }) {
+function WelcomeScreen({ choose }: { choose: (method: AuthMethod) => void }) {
   return (
     <div className="onboarding-screen welcome-screen">
       <div className="welcome-screen__hero">
@@ -44,14 +45,30 @@ function WelcomeScreen({ next }: { next: () => void }) {
         </ScreenTitle>
       </div>
       <div className="auth-buttons">
-        <PrimaryButton onClick={next}><span><AppIcon name="mail" /></span>Continue with Email</PrimaryButton>
-        <button className="auth-button" onClick={next}><span><AppIcon name="google" /></span>Continue with Google</button>
-        <button className="auth-button" onClick={next}><span><AppIcon name="phone" /></span>Continue with Phone</button>
+        <PrimaryButton onClick={() => choose('email')}><span><AppIcon name="mail" /></span>Continue with Email</PrimaryButton>
+        <button className="auth-button" onClick={() => choose('google')}><span><AppIcon name="google" /></span>Continue with Google</button>
+        <button className="auth-button" onClick={() => choose('phone')}><span><AppIcon name="phone" /></span>Continue with Phone</button>
       </div>
       <p className="inline-prompt">Already have an account? <span>Sign in</span></p>
       <p className="legal-copy">By continuing, you agree to our<br /><span>Terms</span> and <span>Privacy Policy</span>.</p>
     </div>
   )
+}
+
+function EmailSignupScreen({ next, back }: { next: () => void; back: () => void }) {
+  const [email, setEmail] = useState('alex.demo@example.com')
+  const [sent, setSent] = useState(false)
+  return <div className="onboarding-screen auth-step"><ScreenHeader onBack={back} /><ScreenTitle support="We’ll send a secure sign-in link to this address.">Continue with email</ScreenTitle><div className="auth-step__card"><label className="prototype-field"><span>EMAIL ADDRESS</span><span className="prototype-field__control"><i><AppIcon name="mail" /></i><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} aria-label="Email address" /></span></label>{sent ? <div className="auth-confirmation"><span><AppIcon name="check" /></span><strong>Check your inbox.</strong><p>A mock confirmation link was sent to<br />{email}. Nothing left this browser.</p><PrimaryButton onClick={next}>Continue</PrimaryButton></div> : <PrimaryButton disabled={!email.includes('@')} onClick={() => setSent(true)}>Send sign-in link</PrimaryButton>}</div><p className="privacy-note"><span><AppIcon name="lock" /></span>Prototype only. No email will be sent.</p></div>
+}
+
+function GoogleSignupScreen({ next, back }: { next: () => void; back: () => void }) {
+  const [selected, setSelected] = useState(false)
+  return <div className="onboarding-screen auth-step"><ScreenHeader onBack={back} /><ScreenTitle support="Choose a fictional Google account to continue.">Continue with Google</ScreenTitle><div className="google-dialog"><div className="google-dialog__brand"><AppIcon name="google" size={25} /><span>Sign in with Google</span></div><p>Choose an account</p><button className={selected ? 'is-selected' : ''} onClick={() => setSelected(true)}><span className="google-avatar">A</span><span><strong>Alex Demo</strong><small>alex.demo@gmail.com</small></span>{selected && <AppIcon name="check" />}</button><small>Mock SSO · no Google connection is made</small></div><div className="auth-step__continue"><PrimaryButton disabled={!selected} onClick={next}>Continue</PrimaryButton></div></div>
+}
+
+function PhoneSignupScreen({ next, back }: { next: () => void; back: () => void }) {
+  const [code, setCode] = useState('482931')
+  return <div className="onboarding-screen auth-step"><ScreenHeader onBack={back} /><ScreenTitle support={<>Enter the six-digit code sent to<br />(305) 555-0148.</>}>Verify your phone</ScreenTitle><div className="auth-step__card"><label className="prototype-field"><span>VERIFICATION CODE</span><span className="prototype-field__control prototype-field__control--code"><i><AppIcon name="phone" /></i><input value={code} inputMode="numeric" maxLength={6} onChange={(event) => setCode(event.target.value.replace(/\D/g, ''))} aria-label="Six digit verification code" /></span></label><p className="auth-step__hint">For the prototype, the code is already filled in.</p><PrimaryButton disabled={code.length !== 6} onClick={next}>Next</PrimaryButton></div><p className="privacy-note"><span><AppIcon name="lock" /></span>No SMS will be sent.</p></div>
 }
 
 function AgeScreen({ next, back }: { next: () => void; back: () => void }) {
@@ -219,6 +236,12 @@ function App() {
     restart()
     setMobileIntroVisible(false)
   }
+  const chooseAuth = (method: AuthMethod) => setStep(`${method}-signup`)
+  const jumpToDashboard = (state: DemoDashboardState) => {
+    setDemoSession((value) => value + 1)
+    setDashboardState(state)
+    setStep('dashboard')
+  }
 
   return (
     <DemoShell notice={<DemoNotice />}>
@@ -229,27 +252,30 @@ function App() {
           <h1>Try Middie.</h1>
           <span className="public-demo-intro__rule" />
           <p className="public-demo-intro__body">This is a clickable preview of the Middie experience. No signup is required and nothing you enter is saved.</p>
-          <p className="public-demo-intro__instructions">Start with the weekly introductions, watch a sample video, share a mock Instagram, and switch perspectives to see what happens next.</p>
+          <p className="public-demo-intro__instructions">Start from the beginning and go through a mock onboarding, or skip right to the user dashboard and match experience.</p>
           <div className="public-demo-intro__actions">
-            <PrimaryButton onClick={startDashboard}>Start the demo</PrimaryButton>
-            <button onClick={startOnboarding}>Begin with onboarding</button>
+            <PrimaryButton onClick={startOnboarding}><AppIcon name="play" />Start demo from beginning</PrimaryButton>
+            <button onClick={startDashboard}><AppIcon name="dashboard" />Skip to the dashboard</button>
           </div>
           <p className="public-demo-intro__note">Prototype only. Profiles and interactions shown here are fictional.</p>
         </aside>
         <div className="phone-column">
           <a className="mobile-exit-link" href="https://middie.app">Exit demo</a>
           <div className="demo-tools" aria-label="Prototype controls">
-            <span>Demo state</span>
-            <button className={dashboardState === 'new-intros' ? 'is-active' : ''} onClick={() => { setDashboardState('new-intros'); setStep('dashboard') }}>New intros available</button>
-            <button className={dashboardState === 'selected-me' ? 'is-active' : ''} onClick={() => { setDashboardState('selected-me'); setStep('dashboard') }}>A match has selected me</button>
-            <button className={dashboardState === 'empty' ? 'is-active' : ''} onClick={() => { setDashboardState('empty'); setStep('dashboard') }}>No matches this week</button>
-            <button className={dashboardState === 'swipe-king' ? 'is-active' : ''} onClick={() => { setDashboardState('swipe-king'); setStep('dashboard') }}>Man is a Swipe King</button>
-            <button onClick={() => { setDemoSession((value) => value + 1); setStep('dashboard') }}>Skip onboarding</button>
-            <button onClick={restart}>Restart demo</button>
+            <span>Skip to a screen</span>
+            <button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}>Weekly matches for a woman</button>
+            <button className={dashboardState === 'selected-me' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('selected-me')}>Weekly intros for a man</button>
+            <button className={dashboardState === 'empty' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('empty')}>No intros this week</button>
+            <button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}>Man is too hot for Middie</button>
+            <button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}>Woman shares her Instagram</button>
+            <button className={step === 'video' ? 'is-active' : ''} onClick={() => { setDemoSession((value) => value + 1); setStep('video') }}>Upload a 30-second video</button>
           </div>
           <PhoneViewport>
             <div className="screen-transition" key={`${step}-${demoSession}`}>
-              {step === 'welcome' && <WelcomeScreen next={goNext} />}
+              {step === 'welcome' && <WelcomeScreen choose={chooseAuth} />}
+              {step === 'email-signup' && <EmailSignupScreen next={() => setStep('age')} back={() => setStep('welcome')} />}
+              {step === 'google-signup' && <GoogleSignupScreen next={() => setStep('age')} back={() => setStep('welcome')} />}
+              {step === 'phone-signup' && <PhoneSignupScreen next={() => setStep('age')} back={() => setStep('welcome')} />}
               {step === 'age' && <AgeScreen next={goNext} back={goBack} />}
               {step === 'identity' && <IdentityScreen next={goNext} back={goBack} />}
               {step === 'location' && <LocationScreen next={goNext} back={goBack} />}
