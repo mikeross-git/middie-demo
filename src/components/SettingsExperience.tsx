@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { PrimaryButton, SecondaryButton } from './Buttons'
 import { MiddieLogo } from './MiddieLogo'
+import { AppIcon } from './AppIcon'
 
 type SettingsPage = 'main' | 'signin' | 'matching' | 'video' | 'membership' | 'help'
 type SimulatedAction = 'upgrade' | 'cancel' | 'delete' | 'signout' | null
@@ -17,25 +18,25 @@ function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (val
   return <button className={checked ? 'settings-toggle is-on' : 'settings-toggle'} role="switch" aria-checked={checked} aria-label={label} onClick={() => onChange(!checked)}><span /></button>
 }
 
-function SettingsRow({ icon, title, detail, onClick, trailing }: { icon: string; title: string; detail?: string; onClick?: () => void; trailing?: React.ReactNode }) {
+function SettingsRow({ icon, title, detail, onClick, trailing }: { icon: ReactNode; title: string; detail?: string; onClick?: () => void; trailing?: React.ReactNode }) {
   const content = <><span className="settings-row__icon">{icon}</span><span className="settings-row__copy"><strong>{title}</strong>{detail && <small>{detail}</small>}</span>{trailing ?? (onClick ? <span className="settings-row__chevron">›</span> : <span />)}</>
   return onClick ? <button className="settings-row" onClick={onClick}>{content}</button> : <div className="settings-row">{content}</div>
 }
 
 function SettingsMain({ open, close }: { open: (page: SettingsPage) => void; close: () => void }) {
-  const items: { section: string; icon: string; title: string; detail: string; page: SettingsPage }[] = [
-    { section: 'ACCOUNT', icon: '♙', title: 'Sign-in Preferences', detail: 'Email, phone, and connected accounts', page: 'signin' },
-    { section: 'MATCHING', icon: '♡', title: 'Match Settings', detail: 'Distance, gender preferences, and location', page: 'matching' },
-    { section: 'PROFILE', icon: '◉', title: 'Record a New Video', detail: 'Update your 30-second introduction', page: 'video' },
-    { section: 'MEMBERSHIP', icon: '♕', title: 'Membership Status', detail: 'Standard plan', page: 'membership' },
-    { section: '', icon: '?', title: 'Help & Support', detail: 'FAQs, contact us, and resources', page: 'help' },
+  const items: { section: string; icon: ReactNode; title: string; detail: string; page: SettingsPage }[] = [
+    { section: 'ACCOUNT', icon: <AppIcon name="key" />, title: 'Sign-in Preferences', detail: 'Email, phone, and connected accounts', page: 'signin' },
+    { section: 'MATCHING', icon: <AppIcon name="heart" />, title: 'Match Settings', detail: 'Distance, gender preferences, and location', page: 'matching' },
+    { section: 'PROFILE', icon: <AppIcon name="video" />, title: 'Record a New Video', detail: 'Update your 30-second introduction', page: 'video' },
+    { section: 'MEMBERSHIP', icon: <AppIcon name="crown" />, title: 'Membership Status', detail: 'Standard plan', page: 'membership' },
+    { section: '', icon: <span className="settings-question">?</span>, title: 'Help & Support', detail: 'FAQs, contact us, and resources', page: 'help' },
   ]
   return <div className="settings-screen"><SettingsHeader onBack={close} /><SettingsTitle title="Settings" copy="Manage your profile, preferences, and membership." /><div className="settings-directory">{items.map((item) => <div key={item.title}>{item.section && <p>{item.section}</p>}<SettingsRow icon={item.icon} title={item.title} detail={item.detail} onClick={() => open(item.page)} /></div>)}</div><p className="settings-signoff">BE REAL. BE YOU.<span />VERSION 1.2.0</p></div>
 }
 
 function SignInSettings({ back, act }: { back: () => void; act: (action: SimulatedAction) => void }) {
   const [twoFactor, setTwoFactor] = useState(false)
-  return <div className="settings-screen"><SettingsHeader onBack={back} /><SettingsTitle title="Sign-in Preferences" copy="Manage how you sign in and secure your account." /><div className="settings-groups"><div><SettingsRow icon="✉" title="Email" detail="alex.demo@example.com" /><SettingsRow icon="⌕" title="Phone Number" detail="(305) 555-0148" /></div><p>CONNECTED ACCOUNTS</p><div><SettingsRow icon="G" title="Google" detail="Connected" /><SettingsRow icon="▣" title="Facebook" detail="Not connected" /><SettingsRow icon="⌑" title="Password" detail="Last updated 3 months ago" /><SettingsRow icon="◇" title="Two-Factor Authentication" detail={twoFactor ? 'Enabled' : 'Not enabled'} trailing={<Toggle checked={twoFactor} onChange={setTwoFactor} label="Two-factor authentication" />} /></div><div><SettingsRow icon="▯" title="Sign Out of All Devices" detail="This will sign you out everywhere" onClick={() => act('signout')} /></div></div><p className="settings-privacy">♢<span>Your sign-in details are kept<br />private and secure.</span></p></div>
+  return <div className="settings-screen"><SettingsHeader onBack={back} /><SettingsTitle title="Sign-in Preferences" copy="Manage how you sign in and secure your account." /><div className="settings-groups"><div><SettingsRow icon={<AppIcon name="mail" />} title="Email" detail="alex.demo@example.com" /><SettingsRow icon={<AppIcon name="phone" />} title="Phone Number" detail="(305) 555-0148" /></div><p>CONNECTED ACCOUNTS</p><div><SettingsRow icon={<AppIcon name="google" />} title="Google" detail="Connected" /><SettingsRow icon={<AppIcon name="facebook" />} title="Facebook" detail="Not connected" /><SettingsRow icon={<AppIcon name="password" />} title="Password" detail="Last updated 3 months ago" /><SettingsRow icon={<AppIcon name="shield" />} title="Two-Factor Authentication" detail={twoFactor ? 'Enabled' : 'Not enabled'} trailing={<Toggle checked={twoFactor} onChange={setTwoFactor} label="Two-factor authentication" />} /></div><div><SettingsRow icon={<AppIcon name="lock" />} title="Sign Out of All Devices" detail="This will sign you out everywhere" onClick={() => act('signout')} /></div></div><p className="settings-privacy">♢<span>Your sign-in details are kept<br />private and secure.</span></p></div>
 }
 
 function Segments<T extends string>({ options, value, onChange }: { options: readonly T[]; value: T; onChange: (value: T) => void }) {
@@ -62,13 +63,14 @@ function NewVideoSettings({ back }: { back: () => void }) {
 }
 
 function MembershipSettings({ back, act }: { back: () => void; act: (action: SimulatedAction) => void }) {
-  return <div className="settings-screen"><SettingsHeader onBack={back} /><SettingsTitle title="Membership Status" copy="Manage your plan, billing, and profile." /><div className="membership-stack"><SettingsRow icon="♕" title="Standard Plan" detail="●  Active" /><button className="membership-card membership-card--upgrade" onClick={() => act('upgrade')}><span>↑</span><span><small>UPGRADE</small><strong>Upgrade to Paid Plan</strong><em>Unlock priority review and more visibility.</em></span><b>›</b></button><button className="membership-card" onClick={() => act('cancel')}><span>×</span><span><small>MANAGE</small><strong>Cancel Membership</strong><em>End your paid plan at the end of the billing period.</em></span><b>›</b></button><button className="membership-card membership-card--danger" onClick={() => act('delete')}><span>♲</span><span><small>DANGER ZONE</small><strong>Delete Profile</strong><em>Permanently remove your profile and data.</em></span><b>›</b></button></div><p className="settings-privacy">♢<span>You can manage your plan anytime.</span></p></div>
+  return <div className="settings-screen"><SettingsHeader onBack={back} /><SettingsTitle title="Membership Status" copy="Manage your plan, billing, and profile." /><div className="membership-stack"><SettingsRow icon={<AppIcon name="crown" />} title="Standard Plan" detail="●  Active" /><button className="membership-card membership-card--upgrade" onClick={() => act('upgrade')}><span>↑</span><span><small>UPGRADE</small><strong>Upgrade to Paid Plan</strong><em>Unlock priority review and more visibility.</em></span><b>›</b></button><button className="membership-card" onClick={() => act('cancel')}><span>×</span><span><small>MANAGE</small><strong>Cancel Membership</strong><em>End your paid plan at the end of the billing period.</em></span><b>›</b></button><button className="membership-card membership-card--danger" onClick={() => act('delete')}><span>♲</span><span><small>DANGER ZONE</small><strong>Delete Profile</strong><em>Permanently remove your profile and data.</em></span><b>›</b></button></div><p className="settings-privacy">♢<span>You can manage your plan anytime.</span></p></div>
 }
 
 function HelpSettings({ back }: { back: () => void }) {
   const [notice, setNotice] = useState('')
   const notify = (label: string) => { setNotice(`${label} is simulated in this prototype.`); window.setTimeout(() => setNotice(''), 2200) }
-  return <div className="settings-screen help-screen"><SettingsHeader onBack={back} /><SettingsTitle title="We’re here for you." copy="Get fast answers, anytime." /><section className="support-assistant"><h2>Support Assistant <small>DEMO</small></h2><p>Explore common Middie help topics.</p><div className="support-search">Ask me anything… <button onClick={() => notify('Support chat')}>➤</button></div><div className="support-chips">{['How matches work', 'Billing questions', 'Privacy', 'Troubleshooting'].map((item) => <button onClick={() => notify(item)} key={item}>{item}</button>)}</div></section><p className="support-divider">OTHER WAYS TO GET HELP</p><div className="support-list">{[['▤','Help Center','Find answers to common questions.'],['✉','Email Support','No email will be sent.'],['♢','Safety & Reporting','Review prototype safety resources.'],['○','Feedback','No form will be submitted.']].map(([icon,title,detail]) => <SettingsRow key={title} icon={icon} title={title} detail={detail} onClick={() => notify(title)} />)}</div>{notice && <div className="prototype-toast" role="status">{notice}</div>}</div>
+  const helpItems: Array<[ReactNode, string, string]> = [[<span className="settings-question">?</span>, 'Help Center', 'Find answers to common questions.'], [<AppIcon name="mail" />, 'Email Support', 'No email will be sent.'], [<AppIcon name="shield" />, 'Safety & Reporting', 'Review prototype safety resources.'], [<AppIcon name="feedback" />, 'Feedback', 'No form will be submitted.']]
+  return <div className="settings-screen help-screen"><SettingsHeader onBack={back} /><SettingsTitle title="We’re here for you." copy="Get fast answers, anytime." /><section className="support-assistant"><h2>Support Assistant <small>DEMO</small></h2><p>Explore common Middie help topics.</p><div className="support-search">Ask me anything… <button onClick={() => notify('Support chat')}>➤</button></div><div className="support-chips">{['How matches work', 'Billing questions', 'Privacy', 'Troubleshooting'].map((item) => <button onClick={() => notify(item)} key={item}>{item}</button>)}</div></section><p className="support-divider">OTHER WAYS TO GET HELP</p><div className="support-list">{helpItems.map(([icon, title, detail]) => <SettingsRow key={title} icon={icon} title={title} detail={detail} onClick={() => notify(title)} />)}</div>{notice && <div className="prototype-toast" role="status">{notice}</div>}</div>
 }
 
 function ConfirmationModal({ action, close }: { action: Exclude<SimulatedAction, null>; close: () => void }) {

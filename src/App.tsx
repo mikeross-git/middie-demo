@@ -182,14 +182,17 @@ function VideoScreen({ next, back }: { next: () => void; back: () => void }) {
 }
 
 function SuccessScreen({ done }: { done: () => void }) {
+  const [videoNotice, setVideoNotice] = useState(false)
   return (
     <div className="onboarding-screen success-screen">
       <MiddieLogo compact />
-      <ScreenTitle support="Your intro has been submitted. Now give us a little time — we’re finding people who are a strong fit for you.">You’re all set.</ScreenTitle>
-      <div className="success-envelope"><div><span><AppIcon name="check" size={34} /></span></div></div>
-      <div className="review-note"><span><AppIcon name="clock" /></span><p>Be patient — we’re reviewing videos<br />and making thoughtful introductions.</p></div>
-      <p className="match-schedule"><span><AppIcon name="calendar" /></span>New matches every Sunday.</p>
+      <ScreenTitle support={<>Your 30-second intro has been submitted.<br />We’ll send your 5 introductions on Sunday.</>}>You’re all set.</ScreenTitle>
+      <div className="success-hero" role="img" aria-label="A black invitation envelope with a glowing gold check mark" />
+      <div className="review-note"><span><AppIcon name="clock" /></span><p>Until then, we’re reviewing videos<br />and preparing thoughtful matches.</p></div>
+      <p className="match-schedule"><span><AppIcon name="calendar" /></span>New introductions every Sunday.</p>
       <PrimaryButton onClick={done}>Done</PrimaryButton>
+      <button className="success-watch" onClick={() => { setVideoNotice(true); window.setTimeout(() => setVideoNotice(false), 2200) }}>Watch My Video</button>
+      {videoNotice && <div className="prototype-toast" role="status">This would replay your simulated introduction video.</div>}
     </div>
   )
 }
@@ -198,13 +201,16 @@ function App() {
   const [step, setStep] = useState<Step>('welcome')
   const [dashboardState, setDashboardState] = useState<DemoDashboardState>('new-intros')
   const [mobileIntroVisible, setMobileIntroVisible] = useState(true)
+  const [demoSession, setDemoSession] = useState(0)
   const goNext = () => setStep(flow[Math.min(flow.indexOf(step) + 1, flow.length - 1)])
   const goBack = () => setStep(flow[Math.max(flow.indexOf(step) - 1, 0)])
   const restart = () => {
+    setDemoSession((value) => value + 1)
     setDashboardState('new-intros')
     setStep('welcome')
   }
   const startDashboard = () => {
+    setDemoSession((value) => value + 1)
     setDashboardState('new-intros')
     setStep('dashboard')
     setMobileIntroVisible(false)
@@ -238,11 +244,11 @@ function App() {
             <button className={dashboardState === 'selected-me' ? 'is-active' : ''} onClick={() => { setDashboardState('selected-me'); setStep('dashboard') }}>A match has selected me</button>
             <button className={dashboardState === 'empty' ? 'is-active' : ''} onClick={() => { setDashboardState('empty'); setStep('dashboard') }}>No matches this week</button>
             <button className={dashboardState === 'swipe-king' ? 'is-active' : ''} onClick={() => { setDashboardState('swipe-king'); setStep('dashboard') }}>Man is a Swipe King</button>
-            <button onClick={() => setStep('dashboard')}>Skip onboarding</button>
+            <button onClick={() => { setDemoSession((value) => value + 1); setStep('dashboard') }}>Skip onboarding</button>
             <button onClick={restart}>Restart demo</button>
           </div>
           <PhoneViewport>
-            <div className="screen-transition" key={step}>
+            <div className="screen-transition" key={`${step}-${demoSession}`}>
               {step === 'welcome' && <WelcomeScreen next={goNext} />}
               {step === 'age' && <AgeScreen next={goNext} back={goBack} />}
               {step === 'identity' && <IdentityScreen next={goNext} back={goBack} />}
