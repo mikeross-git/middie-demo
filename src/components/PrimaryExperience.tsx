@@ -42,7 +42,7 @@ function FooterCopy({ onHowItWorks }: { onHowItWorks: () => void }) {
 
 function HowItWorksSheet({ onClose }: { onClose: () => void }) {
   const steps = [
-    'Record a short introduction.',
+    'Record a short video introducing yourself.',
     'Middie sends a limited set of curated introductions each week.',
     'Interest is revealed intentionally instead of through endless swiping.',
   ]
