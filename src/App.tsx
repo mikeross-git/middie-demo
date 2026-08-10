@@ -207,7 +207,7 @@ function SuccessScreen({ done }: { done: () => void }) {
       <div className="success-hero" role="img" aria-label="A black invitation envelope with a glowing gold check mark" />
       <div className="review-note"><span><AppIcon name="clock" /></span><p>Until then, we’re reviewing videos<br />and preparing thoughtful matches.</p></div>
       <p className="match-schedule"><span><AppIcon name="calendar" /></span>New matches every Sunday.</p>
-      <PrimaryButton onClick={done}>Done</PrimaryButton>
+      <PrimaryButton onClick={done}>View Mock Matches</PrimaryButton>
       <button className="success-watch" onClick={() => { setVideoNotice(true); window.setTimeout(() => setVideoNotice(false), 2200) }}>Watch My Video</button>
       {videoNotice && <div className="prototype-toast" role="status">This would replay your simulated introduction video.</div>}
     </div>
