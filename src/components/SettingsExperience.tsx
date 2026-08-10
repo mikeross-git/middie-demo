@@ -78,8 +78,8 @@ function ConfirmationModal({ action, close }: { action: Exclude<SimulatedAction,
   return <div className="settings-modal-backdrop" onMouseDown={close}><div className="settings-modal" role="dialog" aria-modal="true" onMouseDown={(event) => event.stopPropagation()}><span>DEMO ONLY</span><h2>{copy[0]}</h2><p>{copy[1]} This action is simulated and remains entirely in your browser.</p><PrimaryButton onClick={close}>UNDERSTOOD</PrimaryButton></div></div>
 }
 
-export function SettingsExperience({ onClose }: { onClose: () => void }) {
-  const [page, setPage] = useState<SettingsPage>('main')
+export function SettingsExperience({ onClose, initialPage = 'main' }: { onClose: () => void; initialPage?: SettingsPage }) {
+  const [page, setPage] = useState<SettingsPage>(initialPage)
   const [action, setAction] = useState<SimulatedAction>(null)
   const back = () => setPage('main')
   return <>{page === 'main' && <SettingsMain open={setPage} close={onClose} />}{page === 'signin' && <SignInSettings back={back} act={setAction} />}{page === 'matching' && <MatchSettings back={back} />}{page === 'video' && <NewVideoSettings back={back} />}{page === 'membership' && <MembershipSettings back={back} act={setAction} />}{page === 'help' && <HelpSettings back={back} />}{action && <ConfirmationModal action={action} close={() => setAction(null)} />}</>
