@@ -88,9 +88,10 @@ button { color: inherit; }
 .public-demo-intro__body { max-width: 390px; margin: 0; color: #d0c9c1; font-size: .92rem; line-height: 1.65; }
 .public-demo-intro__instructions { max-width: 380px; margin: 22px 0 0; color: #8f8880; font-size: .78rem; line-height: 1.6; }
 .public-demo-intro__actions { display: grid; max-width: 330px; gap: 10px; margin-top: 34px; }
-.public-demo-intro__actions > button { position: relative; display: grid; grid-template-columns: 24px 1fr 24px; align-items: center; justify-content: center; column-gap: 10px; text-align: center; }
+.public-demo-intro__actions > button { position: relative; display: grid; width: 100%; min-height: 52px; grid-template-columns: 24px minmax(0, 1fr) 24px; align-items: center; justify-content: center; column-gap: 10px; padding: 0 20px; text-align: center; }
 .public-demo-intro__actions > button::after { content: ""; width: 24px; }
-.public-demo-intro__actions .app-icon { width: 19px; height: 19px; }
+.public-demo-intro__actions > button > span { min-width: 0; text-align: center; }
+.public-demo-intro__actions .app-icon { width: 19px; height: 19px; justify-self: center; }
 .public-demo-intro__actions > button:last-child { min-height: 50px; border: 1px solid #3d3934; border-radius: 2px; color: #cbc4bc; background: transparent; font-size: .72rem; letter-spacing: .07em; cursor: pointer; }
 .public-demo-intro__actions > button:last-child:hover { border-color: #635c54; }
 .public-demo-intro__note { margin: 20px 0 0; color: #625d57; font-size: .63rem; line-height: 1.45; }
@@ -371,7 +372,7 @@ button { color: inherit; }
 .auth-confirmation strong { font-family: var(--serif); font-size: 1.55rem; font-weight: 400; }
 .auth-confirmation p { margin: 0 0 10px; color: #aca59d; font-size: .7rem; line-height: 1.5; }
 .auth-step__hint { margin: -6px 0 0; color: #9d968e; font-size: .68rem; text-align: center; }
-.prototype-field__control--code input { font-family: var(--serif); font-size: 1.5rem; letter-spacing: .28em; text-align: center; }
+.prototype-field__control--code input { padding-left: .42em; font-family: var(--serif); font-size: 1.5rem; letter-spacing: .42em; text-align: center; }
 .google-dialog { width: calc(100% - 76px); margin: 52px auto 0; overflow: hidden; border: 1px solid #4c4741; border-radius: 9px; color: #ddd8d1; background: rgb(9 8 7 / 92%); box-shadow: 0 24px 60px rgb(0 0 0 / 45%); }
 .google-dialog__brand { display: flex; align-items: center; gap: 12px; padding: 17px 20px; border-bottom: 1px solid #393530; font-size: .8rem; }
 .google-dialog > p { margin: 0; padding: 18px 20px 10px; font-family: var(--serif); font-size: 1.35rem; }
@@ -560,7 +561,7 @@ button { color: inherit; }
 .instagram-block i { display: inline-grid; width: 14px; height: 14px; place-items: center; border-radius: 50%; color: white; background: #ed1c24; font-size: .55rem; font-style: normal; }
 .instagram-block strong { margin-top: 4px; color: #9e9891; font-size: .68rem; font-weight: 400; }
 .lifestyle-gallery { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 17px; }
-.lifestyle-tile { position: relative; height: 67px; overflow: hidden; border: 1px solid #38332d; border-radius: 3px; background-image: url('/assets/middie-instagram-sheet.png'); background-repeat: no-repeat; background-size: 500% 400%; }
+.lifestyle-tile { position: relative; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; border: 1px solid #38332d; border-radius: 3px; background-image: url('/assets/middie-instagram-sheet.png'); background-repeat: no-repeat; background-size: auto 400%; }
 .lifestyle-tile:nth-child(1) { background-position-x: 0; }
 .lifestyle-tile:nth-child(2) { background-position-x: 25%; }
 .lifestyle-tile:nth-child(3) { background-position-x: 50%; }
@@ -649,6 +650,16 @@ button { color: inherit; }
 .settings-control-card { gap: 10px; }
 .settings-control-card > strong { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; }
 .settings-control-card--inline { grid-template-columns: 130px 1fr; }
+.age-range-control { gap: 2px; padding-block: 11px 8px; }
+.age-range-control__heading, .age-range-control__limits { display: flex; align-items: center; justify-content: space-between; }
+.age-range-control__heading strong { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; }
+.age-range-control__heading span { color: #e5ddd5; font-family: var(--serif); font-size: 1rem; }
+.age-range-control__limits { color: #89827b; font-size: .58rem; }
+.dual-range { position: relative; height: 30px; }
+.dual-range__track { position: absolute; top: 14px; right: 1px; left: 1px; height: 3px; border-radius: 3px; background: linear-gradient(to right, #3b3732 0 var(--range-start), #b51d22 var(--range-start) var(--range-end), #3b3732 var(--range-end) 100%); }
+.dual-range input { position: absolute; inset: 0; width: 100%; height: 30px; margin: 0; appearance: none; background: transparent; pointer-events: none; }
+.dual-range input::-webkit-slider-thumb { width: 18px; height: 18px; appearance: none; border: 2px solid #eee6dc; border-radius: 50%; background: #b51d22; box-shadow: 0 0 0 2px #080808; cursor: pointer; pointer-events: auto; }
+.dual-range input::-moz-range-thumb { width: 14px; height: 14px; border: 2px solid #eee6dc; border-radius: 50%; background: #b51d22; box-shadow: 0 0 0 2px #080808; cursor: pointer; pointer-events: auto; }
 .settings-segments { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; overflow: hidden; border: 1px solid #393632; border-radius: 5px; }
 .settings-segments button { min-height: 34px; padding: 4px; border: 0; border-right: 1px solid #393632; color: #c7c1b9; background: transparent; font-size: .61rem; cursor: pointer; }
 .settings-segments button:last-child { border-right: 0; }
@@ -708,9 +719,9 @@ button { color: inherit; }
 .swipe-king { padding: 0 26px 36px; text-align: center; }
 .swipe-king .experience-header { margin: 0 -26px; }
 .swipe-king__copy { padding-top: 18px; }
-.swipe-king__copy h1 { margin: 0; color: #eadcc6; font-family: var(--serif); font-size: 2.85rem; font-weight: 400; line-height: .98; }
+.swipe-king__copy h1 { margin: 0; color: var(--paper); font-family: var(--serif); font-size: 2.85rem; font-weight: 400; line-height: .98; }
 .swipe-king__rule { display: block; width: 72%; height: 1px; margin: 21px auto 20px; background: linear-gradient(90deg, #a51d20, #e22026 45%, #a51d20); }
-.swipe-king__copy p { margin: 0; color: #dccbb2; font-size: .78rem; line-height: 1.55; }
+.swipe-king__copy p { margin: 0; color: #d5d0c9; font-size: .78rem; line-height: 1.55; }
 .swipe-king__art { display: block; width: min(90%, 310px); max-height: 310px; margin: 16px auto 12px; object-fit: contain; filter: drop-shadow(0 9px 24px rgb(0 0 0 / 65%)); }
 .swipe-king__note { display: grid; gap: 5px; padding: 15px 13px; border: 1px solid #66513e; border-radius: 7px; color: #ddccb2; background: rgb(8 7 6 / 84%); font-family: var(--serif); font-size: .86rem; line-height: 1.35; }
 .swipe-king__note strong { font-size: 1rem; font-weight: 400; }

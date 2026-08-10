@@ -254,8 +254,8 @@ function App() {
           <p className="public-demo-intro__body">This is a clickable preview of the Middie experience. No signup is required and nothing you enter is saved.</p>
           <p className="public-demo-intro__instructions">Start from the beginning and go through a mock onboarding, or skip right to the user dashboard and match experience.</p>
           <div className="public-demo-intro__actions">
-            <PrimaryButton onClick={startOnboarding}><AppIcon name="play" />Start demo from beginning</PrimaryButton>
-            <button onClick={startDashboard}><AppIcon name="dashboard" />Skip to the dashboard</button>
+            <PrimaryButton onClick={startOnboarding}><AppIcon name="play" /><span>Start demo from beginning</span></PrimaryButton>
+            <button onClick={startDashboard}><AppIcon name="dashboard" /><span>Skip to the dashboard</span></button>
           </div>
           <p className="public-demo-intro__note">Prototype only. Profiles and interactions shown here are fictional.</p>
         </aside>
