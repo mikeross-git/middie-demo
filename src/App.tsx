@@ -207,7 +207,7 @@ function SuccessScreen({ done }: { done: () => void }) {
       <div className="success-hero" role="img" aria-label="A black invitation envelope with a glowing gold check mark" />
       <div className="review-note"><span><AppIcon name="clock" /></span><p>Until then, we’re reviewing videos<br />and preparing thoughtful matches.</p></div>
       <p className="match-schedule"><span><AppIcon name="calendar" /></span>New introductions every Sunday.</p>
-      <PrimaryButton onClick={done}>Done</PrimaryButton>
+      <PrimaryButton onClick={done}>View Mock Matches</PrimaryButton>
       <button className="success-watch" onClick={() => { setVideoNotice(true); window.setTimeout(() => setVideoNotice(false), 2200) }}>Watch My Video</button>
       {videoNotice && <div className="prototype-toast" role="status">This would replay your simulated introduction video.</div>}
     </div>
@@ -272,12 +272,12 @@ function App() {
           {mobileMenuOpen && <div className="mobile-persona-menu"><span>Skip to a screen</span><button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}>Weekly matches for a woman</button><button className={dashboardState === 'selected-me' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('selected-me')}>Weekly intros for a man</button><button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}>Woman shares her Instagram</button><button className={step === 'video' ? 'is-active' : ''} onClick={jumpToVideo}>Upload a 30-second video</button><button className={dashboardState === 'empty' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('empty')}>No intros this week</button><button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}>Man is too hot for Middie</button></div>}
           <div className="demo-tools" aria-label="Prototype controls">
             <span>Skip to a screen</span>
-            <button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}>Weekly matches for a woman</button>
-            <button className={dashboardState === 'selected-me' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('selected-me')}>Weekly intros for a man</button>
-            <button className={dashboardState === 'empty' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('empty')}>No intros this week</button>
-            <button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}>Man is too hot for Middie</button>
-            <button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}>Woman shares her Instagram</button>
-            <button className={step === 'video' ? 'is-active' : ''} onClick={jumpToVideo}>Upload a 30-second video</button>
+            <button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}><AppIcon name="heart" /><span>Weekly matches for a woman</span></button>
+            <button className={dashboardState === 'selected-me' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('selected-me')}><AppIcon name="user" /><span>Weekly intros for a man</span></button>
+            <button className={dashboardState === 'empty' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('empty')}><AppIcon name="calendar" /><span>No intros this week</span></button>
+            <button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}><AppIcon name="crown" /><span>Man is too hot for Middie</span></button>
+            <button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}><AppIcon name="instagram" /><span>Woman shares her Instagram</span></button>
+            <button className={step === 'video' ? 'is-active' : ''} onClick={jumpToVideo}><AppIcon name="video" /><span>Upload a 30-second video</span></button>
           </div>
           <PhoneViewport>
             <div className="screen-transition" key={`${step}-${demoSession}`}>

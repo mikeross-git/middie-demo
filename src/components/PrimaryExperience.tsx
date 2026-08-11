@@ -42,11 +42,11 @@ function FooterCopy({ onHowItWorks }: { onHowItWorks: () => void }) {
 
 function HowItWorksSheet({ onClose }: { onClose: () => void }) {
   const steps = [
-    'Record a short introduction.',
-    'Middie sends a limited set of curated introductions each week.',
+    'Record a short introductory video.',
+    'Middie sends women a limited set of curated matches each week.',
     'Interest is revealed intentionally instead of through endless swiping.',
   ]
-  return <div className="how-sheet-backdrop" role="presentation" onMouseDown={onClose}><section className="how-sheet" role="dialog" aria-modal="true" aria-labelledby="how-title" onMouseDown={(event) => event.stopPropagation()}><button className="how-sheet__close" onClick={onClose} aria-label="Close">×</button><p className="how-sheet__eyebrow">A considered introduction</p><h2 id="how-title">How Middie works</h2><span className="red-rule" /><ol>{steps.map((step, index) => <li key={step}><span>0{index + 1}</span><p>{step}</p></li>)}</ol><PrimaryButton onClick={onClose}>GOT IT</PrimaryButton></section></div>
+  return <div className="how-sheet-backdrop" role="presentation" onMouseDown={onClose}><section className="how-sheet" role="dialog" aria-modal="true" aria-labelledby="how-title" onMouseDown={(event) => event.stopPropagation()}><button className="how-sheet__close" onClick={onClose} aria-label="Close">×</button><p className="how-sheet__eyebrow">A considered introduction</p><h2 id="how-title">How Middie Works</h2><span className="red-rule" /><ol>{steps.map((step, index) => <li key={step}><span>0{index + 1}</span><p>{step}</p></li>)}</ol><PrimaryButton onClick={onClose}>GOT IT</PrimaryButton></section></div>
 }
 
 function VideoSheet({ profile, onClose }: { profile: IntroProfile; onClose: () => void }) {
