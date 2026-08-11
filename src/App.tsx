@@ -259,7 +259,7 @@ function App() {
           <p className="public-demo-intro__note">Prototype only. Profiles and interactions shown here are fictional.</p>
         </aside>
         <div className="phone-column">
-          <a className="mobile-exit-link" href="https://middie.app/demo">Exit demo</a>
+          <a className="mobile-exit-link" href="https://middie.app/demo" target="_top">Exit demo</a>
           <div className="demo-tools" aria-label="Prototype controls">
             <span>Skip to a screen</span>
             <button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}>Weekly matches for a woman</button>
@@ -280,7 +280,7 @@ function App() {
               {step === 'location' && <LocationScreen next={goNext} back={goBack} />}
               {step === 'video' && <VideoScreen next={goNext} back={goBack} />}
               {step === 'success' && <SuccessScreen done={goNext} />}
-              {step === 'dashboard' && <PrimaryExperience demoState={dashboardState} onDemoStateChange={setDashboardState} />}
+              {step === 'dashboard' && <PrimaryExperience demoState={dashboardState} onDemoStateChange={setDashboardState} onUploadVideo={() => { setDemoSession((value) => value + 1); setStep('video') }} />}
             </div>
           </PhoneViewport>
         </div>
