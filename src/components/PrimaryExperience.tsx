@@ -10,7 +10,6 @@ export type DemoDashboardState = 'new-intros' | 'selected-me' | 'empty' | 'swipe
 type PrimaryExperienceProps = {
   demoState: DemoDashboardState
   onDemoStateChange: (state: DemoDashboardState) => void
-  onUploadVideo: () => void
 }
 
 function Portrait({ profile, className = '' }: { profile: IntroProfile; className?: string }) {
@@ -43,11 +42,11 @@ function FooterCopy({ onHowItWorks }: { onHowItWorks: () => void }) {
 
 function HowItWorksSheet({ onClose }: { onClose: () => void }) {
   const steps = [
-    'Record a short video introducing yourself.',
-    'Middie sends a limited set of curated matches to women each week.',
+    'Record a short introduction.',
+    'Middie sends a limited set of curated introductions each week.',
     'Interest is revealed intentionally instead of through endless swiping.',
   ]
-  return <div className="how-sheet-backdrop" role="presentation" onMouseDown={onClose}><section className="how-sheet" role="dialog" aria-modal="true" aria-labelledby="how-title" onMouseDown={(event) => event.stopPropagation()}><button className="how-sheet__close" onClick={onClose} aria-label="Close">×</button><p className="how-sheet__eyebrow">A considered introduction</p><h2 id="how-title">How Middie Works</h2><span className="red-rule" /><ol>{steps.map((step, index) => <li key={step}><span>0{index + 1}</span><p>{step}</p></li>)}</ol><PrimaryButton onClick={onClose}>GOT IT</PrimaryButton></section></div>
+  return <div className="how-sheet-backdrop" role="presentation" onMouseDown={onClose}><section className="how-sheet" role="dialog" aria-modal="true" aria-labelledby="how-title" onMouseDown={(event) => event.stopPropagation()}><button className="how-sheet__close" onClick={onClose} aria-label="Close">×</button><p className="how-sheet__eyebrow">A considered introduction</p><h2 id="how-title">How Middie works</h2><span className="red-rule" /><ol>{steps.map((step, index) => <li key={step}><span>0{index + 1}</span><p>{step}</p></li>)}</ol><PrimaryButton onClick={onClose}>GOT IT</PrimaryButton></section></div>
 }
 
 function VideoSheet({ profile, onClose }: { profile: IntroProfile; onClose: () => void }) {
@@ -127,12 +126,11 @@ function SwipeKing() {
   return <div className="primary-experience swipe-king"><ExperienceHeader /><div className="swipe-king__copy"><h1>You’re Too<br />Hot For Middie</h1><span className="swipe-king__rule" /><p>Your video is giving Swipe App King vibes.<br />Be a team player, and leave some dates<br />for the rest of us mere mortals.</p></div><img className="swipe-king__art" src={`${import.meta.env.BASE_URL}assets/middie-swipe-king.png`} alt="A gold crown emerging from a black invitation envelope" /><div className="swipe-king__note"><strong>Don’t worry — this is a compliment.</strong><span>We’re saving Middie for the overlooked,<br />the thoughtful, and the almost-picked.</span></div><div className="swipe-king__actions"><PrimaryButton onClick={() => explain('Prototype only — no external dating app will open.')}>Try Hinge or Bumble →</PrimaryButton><SecondaryButton onClick={() => explain('Your simulated appeal has been noted. Nothing was submitted.')}>I think I’m Middie. Please review!</SecondaryButton></div><p className="swipe-king__fineprint">In the real product, a member of the team would review an appeal.</p>{notice && <div className="prototype-toast" role="status">{notice}</div>}</div>
 }
 
-export function PrimaryExperience({ demoState, onDemoStateChange, onUploadVideo }: PrimaryExperienceProps) {
-  const [menuOpen, setMenuOpen] = useState(false)
+export function PrimaryExperience({ demoState, onDemoStateChange }: PrimaryExperienceProps) {
   const [showHow, setShowHow] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [settingsPage, setSettingsPage] = useState<'main' | 'membership'>('main')
-  const choose = (value: DemoDashboardState) => { onDemoStateChange(value); setMenuOpen(false) }
+  const choose = (value: DemoDashboardState) => onDemoStateChange(value)
   if (showSettings) return <SettingsExperience initialPage={settingsPage} onClose={() => { setShowSettings(false); setSettingsPage('main') }} />
-  return <div className="experience-with-settings"><button className="settings-entry" onClick={() => setShowSettings(true)} aria-label="Open Settings">⚙</button><button className="mobile-persona-trigger" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>Skip to a Screen</button>{menuOpen && <div className="mobile-persona-menu"><span>Skip to a screen</span><button className={demoState === 'new-intros' ? 'is-active' : ''} onClick={() => choose('new-intros')}>Weekly matches for a woman</button><button className={demoState === 'selected-me' ? 'is-active' : ''} onClick={() => choose('selected-me')}>Weekly intros for a man</button><button className={demoState === 'woman-profile' ? 'is-active' : ''} onClick={() => choose('woman-profile')}>Woman shares her Instagram</button><button onClick={() => { setMenuOpen(false); onUploadVideo() }}>Upload a 30-second video</button><button className={demoState === 'empty' ? 'is-active' : ''} onClick={() => choose('empty')}>No intros this week</button><button className={demoState === 'swipe-king' ? 'is-active' : ''} onClick={() => choose('swipe-king')}>Man is too hot for Middie</button></div>}{demoState === 'new-intros' && <WomanIntros onHowItWorks={() => setShowHow(true)} />}{demoState === 'selected-me' && <ManMatches onHowItWorks={() => setShowHow(true)} />}{demoState === 'woman-profile' && <ProfileDetail profile={incomingMatches[0]} onBack={() => choose('selected-me')} />}{demoState === 'empty' && <EmptyMatches onHowItWorks={() => setShowHow(true)} onUpgrade={() => { setSettingsPage('membership'); setShowSettings(true) }} />}{demoState === 'swipe-king' && <SwipeKing />}{showHow && <HowItWorksSheet onClose={() => setShowHow(false)} />}</div>
+  return <div className="experience-with-settings"><button className="settings-entry" onClick={() => setShowSettings(true)} aria-label="Open Settings">⚙</button>{demoState === 'new-intros' && <WomanIntros onHowItWorks={() => setShowHow(true)} />}{demoState === 'selected-me' && <ManMatches onHowItWorks={() => setShowHow(true)} />}{demoState === 'woman-profile' && <ProfileDetail profile={incomingMatches[0]} onBack={() => choose('selected-me')} />}{demoState === 'empty' && <EmptyMatches onHowItWorks={() => setShowHow(true)} onUpgrade={() => { setSettingsPage('membership'); setShowSettings(true) }} />}{demoState === 'swipe-king' && <SwipeKing />}{showHow && <HowItWorksSheet onClose={() => setShowHow(false)} />}</div>
 }

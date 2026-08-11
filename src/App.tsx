@@ -182,7 +182,7 @@ function VideoScreen({ next, back }: { next: () => void; back: () => void }) {
           <div className="recorded-preview">
             <span className="recorded-preview__check">✓</span>
             <strong>Looking good.</strong>
-            <small>Your simulated video is ready.</small>
+            <small>Your simulated intro is ready.</small>
             <PrimaryButton onClick={next}>Use this video</PrimaryButton>
             <button className="text-button" onClick={() => setRecordingState('ready')}>Record again</button>
           </div>
@@ -203,11 +203,11 @@ function SuccessScreen({ done }: { done: () => void }) {
   return (
     <div className="onboarding-screen success-screen">
       <MiddieLogo compact />
-      <ScreenTitle support={<>Your 30-second video has been submitted.<br />We’ll send your 5 matches on Sunday.</>}>You’re all set.</ScreenTitle>
+      <ScreenTitle support={<>Your 30-second intro has been submitted.<br />We’ll send your 5 introductions on Sunday.</>}>You’re all set.</ScreenTitle>
       <div className="success-hero" role="img" aria-label="A black invitation envelope with a glowing gold check mark" />
       <div className="review-note"><span><AppIcon name="clock" /></span><p>Until then, we’re reviewing videos<br />and preparing thoughtful matches.</p></div>
-      <p className="match-schedule"><span><AppIcon name="calendar" /></span>New matches every Sunday.</p>
-      <PrimaryButton onClick={done}>View Mock Matches</PrimaryButton>
+      <p className="match-schedule"><span><AppIcon name="calendar" /></span>New introductions every Sunday.</p>
+      <PrimaryButton onClick={done}>Done</PrimaryButton>
       <button className="success-watch" onClick={() => { setVideoNotice(true); window.setTimeout(() => setVideoNotice(false), 2200) }}>Watch My Video</button>
       {videoNotice && <div className="prototype-toast" role="status">This would replay your simulated introduction video.</div>}
     </div>
@@ -218,6 +218,7 @@ function App() {
   const [step, setStep] = useState<Step>('welcome')
   const [dashboardState, setDashboardState] = useState<DemoDashboardState>('new-intros')
   const [mobileIntroVisible, setMobileIntroVisible] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [demoSession, setDemoSession] = useState(0)
   const goNext = () => setStep(flow[Math.min(flow.indexOf(step) + 1, flow.length - 1)])
   const goBack = () => setStep(flow[Math.max(flow.indexOf(step) - 1, 0)])
@@ -241,12 +242,19 @@ function App() {
     setDemoSession((value) => value + 1)
     setDashboardState(state)
     setStep('dashboard')
+    setMobileMenuOpen(false)
+  }
+  const jumpToVideo = () => {
+    setDemoSession((value) => value + 1)
+    setStep('video')
+    setMobileMenuOpen(false)
   }
 
   return (
     <DemoShell notice={<DemoNotice />}>
       <div className="public-demo-layout">
         <aside className={mobileIntroVisible ? 'public-demo-intro is-mobile-visible' : 'public-demo-intro'}>
+          <a className="public-demo-intro__exit" href="https://middie.app" aria-label="Return to the Middie website">← Middie.app</a>
           <p className="public-demo-intro__eyebrow">INTERACTIVE PROTOTYPE</p>
           <h1>Try Middie.</h1>
           <span className="public-demo-intro__rule" />
@@ -260,6 +268,8 @@ function App() {
         </aside>
         <div className="phone-column">
           <a className="mobile-exit-link" href="https://middie.app/demo" target="_top">Exit demo</a>
+          <button className="mobile-persona-trigger" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>Skip to a Screen</button>
+          {mobileMenuOpen && <div className="mobile-persona-menu"><span>Skip to a screen</span><button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}>Weekly matches for a woman</button><button className={dashboardState === 'selected-me' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('selected-me')}>Weekly intros for a man</button><button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}>Woman shares her Instagram</button><button className={step === 'video' ? 'is-active' : ''} onClick={jumpToVideo}>Upload a 30-second video</button><button className={dashboardState === 'empty' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('empty')}>No intros this week</button><button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}>Man is too hot for Middie</button></div>}
           <div className="demo-tools" aria-label="Prototype controls">
             <span>Skip to a screen</span>
             <button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}>Weekly matches for a woman</button>
@@ -267,7 +277,7 @@ function App() {
             <button className={dashboardState === 'empty' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('empty')}>No intros this week</button>
             <button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}>Man is too hot for Middie</button>
             <button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}>Woman shares her Instagram</button>
-            <button className={step === 'video' ? 'is-active' : ''} onClick={() => { setDemoSession((value) => value + 1); setStep('video') }}>Upload a 30-second video</button>
+            <button className={step === 'video' ? 'is-active' : ''} onClick={jumpToVideo}>Upload a 30-second video</button>
           </div>
           <PhoneViewport>
             <div className="screen-transition" key={`${step}-${demoSession}`}>
@@ -280,7 +290,7 @@ function App() {
               {step === 'location' && <LocationScreen next={goNext} back={goBack} />}
               {step === 'video' && <VideoScreen next={goNext} back={goBack} />}
               {step === 'success' && <SuccessScreen done={goNext} />}
-              {step === 'dashboard' && <PrimaryExperience demoState={dashboardState} onDemoStateChange={setDashboardState} onUploadVideo={() => { setDemoSession((value) => value + 1); setStep('video') }} />}
+              {step === 'dashboard' && <PrimaryExperience demoState={dashboardState} onDemoStateChange={setDashboardState} />}
             </div>
           </PhoneViewport>
         </div>
