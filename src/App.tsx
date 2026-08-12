@@ -7,9 +7,21 @@ type Gender = 'Male' | 'Female'
 type MatchPreference = Gender | 'Male & Female'
 type Distance = '10 miles' | '25 miles' | '50 miles' | '100 miles' | 'No preference'
 type RecordingState = 'ready' | 'recording' | 'recorded'
+type ResourceModal = 'faq' | 'founder' | null
 
 const flow: Step[] = ['welcome', 'age', 'identity', 'location', 'video', 'success', 'dashboard']
 const distanceOptions: Distance[] = ['10 miles', '25 miles', '50 miles', '100 miles', 'No preference']
+const faqs = [
+  ['How do you decide who is "too hot for Middie?"', 'We leverage AI to analyze a user’s video. We will publish the methodology when the app launches for full transparency, and you will see in the demo that there will be a manual appeal process available to the user.'],
+  ['Will women be banned based on looks or just men?', 'Just men. Men make up the vast majority of dating app users and contribute to the 80/20 swipe bias.'],
+  ['Won’t women just choose the hottest of the remaining subset of men, creating the 80/20 problem all over again?', 'Yes! And that would be an amazing outcome. Remember, this “middle” group of men, between 60%–80% (or even up to 90% in some markets) on the curve, are getting virtually zero dates now on other apps. We’re likely not going to be able to solve the problem for the bottom 50%, and that’s ok.'],
+  ['When will you be launching?', 'The planned launch is in the fall of 2026.'],
+  ['Where will you initially be launching?', 'Middie will roll out in stages. The initial plan is to launch in South Florida, then Southern California, and then New York City.'],
+] as const
+
+function ResourceDialog({ resource, close }: { resource: Exclude<ResourceModal, null>; close: () => void }) {
+  return <div className="resource-modal-backdrop" role="presentation" onMouseDown={close}><section className={`resource-modal resource-modal--${resource}`} role="dialog" aria-modal="true" aria-labelledby="resource-title" onMouseDown={(event) => event.stopPropagation()}><button className="resource-modal__close" onClick={close} aria-label="Close">×</button>{resource === 'faq' ? <><p className="resource-modal__eyebrow">RESOURCES</p><h2 id="resource-title">Frequently Asked Questions</h2><div className="resource-faqs">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></> : <><p className="resource-modal__eyebrow">MEET OUR FOUNDER</p><h2 id="resource-title">Why Middie?</h2><p className="resource-modal__intro">A short introduction to the idea behind Middie.</p><video className="resource-founder-video" controls playsInline preload="metadata"><source src={`${import.meta.env.BASE_URL}assets/middie-founder-video.mp4`} type="video/mp4" />Your browser does not support embedded video.</video></>}</section></div>
+}
 
 function BackButton({ onClick }: { onClick: () => void }) {
   return <button className="nav-icon nav-icon--back" onClick={onClick} aria-label="Go back" />
@@ -219,6 +231,7 @@ function App() {
   const [dashboardState, setDashboardState] = useState<DemoDashboardState>('new-intros')
   const [mobileIntroVisible, setMobileIntroVisible] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [resourceModal, setResourceModal] = useState<ResourceModal>(null)
   const [demoSession, setDemoSession] = useState(0)
   const goNext = () => setStep(flow[Math.min(flow.indexOf(step) + 1, flow.length - 1)])
   const goBack = () => setStep(flow[Math.max(flow.indexOf(step) - 1, 0)])
@@ -277,6 +290,9 @@ function App() {
             <button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}><AppIcon name="crown" /><span>Man is too hot for Middie</span></button>
             <button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}><AppIcon name="instagram" /><span>Woman shares her Instagram</span></button>
             <button className={step === 'video' ? 'is-active' : ''} onClick={jumpToVideo}><AppIcon name="video" /><span>Upload a 30-second video</span></button>
+            <span className="demo-tools__resources-label">Resources</span>
+            <button className="demo-tools__resource demo-tools__resource--faq" onClick={() => setResourceModal('faq')}><span className="demo-tools__resource-icon">?</span><span>FAQ</span></button>
+            <button className="demo-tools__resource demo-tools__resource--founder" onClick={() => setResourceModal('founder')}><AppIcon name="video" /><span>Meet our Founder</span></button>
           </div>
           <PhoneViewport>
             <div className="screen-transition" key={`${step}-${demoSession}`}>
@@ -294,6 +310,7 @@ function App() {
           </PhoneViewport>
         </div>
       </div>
+      {resourceModal && <ResourceDialog resource={resourceModal} close={() => setResourceModal(null)} />}
     </DemoShell>
   )
 }
