@@ -785,6 +785,11 @@ button { color: inherit; }
   .mobile-persona-menu button .app-icon { width: 15px; height: 15px; flex: 0 0 15px; color: #a65851; }
   .mobile-persona-menu button span { min-width: 0; }
   .mobile-persona-menu button.is-active { border-color: #7e2924; color: #eee5dc; }
+  .mobile-persona-menu > .mobile-persona-menu__resources-label { margin-top: 10px; padding-top: 11px; border-top: 1px solid #332d29; color: #9a796b; }
+  .mobile-persona-menu .mobile-persona-menu__resource { color: #c5b7aa; }
+  .mobile-persona-menu .mobile-persona-menu__resource--faq { border-color: #65512e; background: rgb(53 42 19 / 66%); }
+  .mobile-persona-menu .mobile-persona-menu__resource--founder { border-color: #543038; background: rgb(49 19 27 / 68%); }
+  .mobile-persona-menu .demo-tools__resource-icon { color: #d0a95e; }
   .public-demo-intro { display: none; }
   .public-demo-intro.is-mobile-visible { position: fixed; inset: 0; z-index: 100; display: flex; max-width: none; flex-direction: column; justify-content: center; padding: max(28px, env(safe-area-inset-top)) 30px max(28px, env(safe-area-inset-bottom)); background: radial-gradient(circle at 75% 22%, rgb(116 49 29 / 18%), transparent 30%), #080706; }
   .public-demo-intro__exit { position: absolute; top: max(22px, env(safe-area-inset-top)); left: 30px; margin: 0; }
