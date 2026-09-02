@@ -3,7 +3,7 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const origin = "https://middie.app";
-const routes = ["", "terms", "privacy", "analyzer", "blog"];
+const routes = ["", "terms", "privacy", "analyzer", "blog", "demo"];
 const output = "site";
 
 await rm(output, { recursive: true, force: true });
@@ -40,6 +40,11 @@ for (const [route, source] of pages) {
   let html = source;
   for (const [assetUrl, localUrl] of localForUrl) {
     html = html.replaceAll(assetUrl, localUrl).replaceAll(assetUrl.replaceAll("&", "&amp;"), localUrl);
+  }
+  if (route === "demo") {
+    html = html
+      .replaceAll("https://mikeross-git.github.io/middie-demo/demo/", "/prototype/")
+      .replaceAll('href="./', 'href="/');
   }
   const directory = route ? path.join(output, route) : output;
   await mkdir(directory, { recursive: true });

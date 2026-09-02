@@ -264,12 +264,7 @@ function App() {
   }
 
   return (
-    <div className="demo-site-page">
-      <header className="demo-site-header">
-        <a className="demo-site-header__brand" href="/" aria-label="Middie home"><MiddieLogo compact /></a>
-        <a className="demo-site-header__back" href="/">Back to main site</a>
-      </header>
-      <DemoShell notice={<DemoNotice />}>
+    <DemoShell notice={<DemoNotice />}>
       <div className="public-demo-layout">
         <aside className={mobileIntroVisible ? 'public-demo-intro is-mobile-visible' : 'public-demo-intro'}>
           <p className="public-demo-intro__eyebrow">INTERACTIVE PROTOTYPE</p>
@@ -316,13 +311,7 @@ function App() {
         </div>
       </div>
       {resourceModal && <ResourceDialog resource={resourceModal} close={() => setResourceModal(null)} />}
-      </DemoShell>
-      <footer className="demo-site-footer">
-        <a href="/">Middie</a>
-        <span>Interactive prototype</span>
-        <a href="/">Return to main site</a>
-      </footer>
-    </div>
+    </DemoShell>
   )
 }
 
