@@ -264,7 +264,12 @@ function App() {
   }
 
   return (
-    <DemoShell notice={<DemoNotice />}>
+    <div className="demo-site-page">
+      <header className="demo-site-header">
+        <a className="demo-site-header__brand" href="/" aria-label="Middie home"><MiddieLogo compact /></a>
+        <a className="demo-site-header__back" href="/">Back to main site</a>
+      </header>
+      <DemoShell notice={<DemoNotice />}>
       <div className="public-demo-layout">
         <aside className={mobileIntroVisible ? 'public-demo-intro is-mobile-visible' : 'public-demo-intro'}>
           <p className="public-demo-intro__eyebrow">INTERACTIVE PROTOTYPE</p>
@@ -279,7 +284,7 @@ function App() {
           <p className="public-demo-intro__note">Prototype only. Profiles and interactions shown here are fictional.</p>
         </aside>
         <div className="phone-column">
-          <a className="mobile-exit-link" href="https://middie.app/demo" target="_top">Exit demo</a>
+          <a className="mobile-exit-link" href="/" target="_top">Exit demo</a>
           <button className="mobile-persona-trigger" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>Skip to a Screen</button>
           {mobileMenuOpen && <div className="mobile-persona-menu"><span>Skip to a screen</span><button className={dashboardState === 'new-intros' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('new-intros')}><AppIcon name="heart" /><span>Weekly matches for a woman</span></button><button className={dashboardState === 'selected-me' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('selected-me')}><AppIcon name="user" /><span>Weekly intros for a man</span></button><button className={dashboardState === 'woman-profile' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('woman-profile')}><AppIcon name="instagram" /><span>Woman shares her Instagram</span></button><button className={step === 'video' ? 'is-active' : ''} onClick={jumpToVideo}><AppIcon name="video" /><span>Upload a 30-second video</span></button><button className={dashboardState === 'empty' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('empty')}><AppIcon name="calendar" /><span>No intros this week</span></button><button className={dashboardState === 'swipe-king' && step === 'dashboard' ? 'is-active' : ''} onClick={() => jumpToDashboard('swipe-king')}><AppIcon name="crown" /><span>Man is too hot for Middie</span></button><span className="mobile-persona-menu__resources-label">Resources</span><button className="mobile-persona-menu__resource mobile-persona-menu__resource--faq" onClick={() => { setMobileMenuOpen(false); setResourceModal('faq') }}><span className="demo-tools__resource-icon">?</span><span>FAQ</span></button><button className="mobile-persona-menu__resource mobile-persona-menu__resource--founder" onClick={() => { setMobileMenuOpen(false); setResourceModal('founder') }}><AppIcon name="video" /><span>Meet our Founder</span></button></div>}
           <div className="demo-tools" aria-label="Prototype controls">
@@ -311,7 +316,13 @@ function App() {
         </div>
       </div>
       {resourceModal && <ResourceDialog resource={resourceModal} close={() => setResourceModal(null)} />}
-    </DemoShell>
+      </DemoShell>
+      <footer className="demo-site-footer">
+        <a href="/">Middie</a>
+        <span>Interactive prototype</span>
+        <a href="/">Return to main site</a>
+      </footer>
+    </div>
   )
 }
 

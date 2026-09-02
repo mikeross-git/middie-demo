@@ -23,6 +23,15 @@ html { background: var(--ink); }
 
 body { margin: 0; min-width: 320px; min-height: 100vh; }
 
+.demo-site-page { min-height: 100vh; background: #100f0e; color: #f7f2ea; }
+.demo-site-header { position: relative; z-index: 20; display: flex; align-items: center; justify-content: space-between; min-height: 72px; padding: 0 clamp(20px, 4vw, 64px); border-bottom: 1px solid #302c28; background: #100f0e; }
+.demo-site-header__brand { display: inline-flex; color: inherit; text-decoration: none; }
+.demo-site-header__back { padding: 11px 17px; border: 1px solid #f04f36; border-radius: 999px; color: #f7f2ea; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-decoration: none; text-transform: uppercase; transition: background-color .2s ease, color .2s ease; }
+.demo-site-header__back:hover { background: #f04f36; color: #fff; }
+.demo-site-footer { position: relative; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 76px; padding: 0 clamp(20px, 4vw, 64px); border-top: 1px solid #302c28; background: #100f0e; color: #8f8881; font-size: .78rem; }
+.demo-site-footer a { color: #f7f2ea; text-decoration: none; }
+.demo-site-footer a:hover { color: #f04f36; }
+
 button, input { font: inherit; }
 button { color: inherit; }
 
@@ -766,6 +775,9 @@ button { color: inherit; }
 @keyframes toast-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 600px) {
+  .demo-site-header { min-height: 62px; }
+  .demo-site-header__back { padding: 9px 13px; font-size: .68rem; }
+  .demo-site-footer { flex-direction: column; justify-content: center; padding-block: 22px; text-align: center; }
   .demo-shell { display: block; padding: 0; overflow: visible; }
   .demo-shell__atmosphere, .demo-notice { display: none; }
   .demo-shell__stage { width: 100%; }
