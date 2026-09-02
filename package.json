@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:cloudflare": "tsc -b && vite build --base=/demo/ --outDir dist/demo --emptyOutDir && node scripts/build-cloudflare.mjs",
+    "import:framer": "node scripts/import-framer.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc -b --pretty false"

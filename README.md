@@ -1,4 +1,11 @@
-# Middie clickable prototype
+# Middie website and clickable prototype
+
+This repository contains the public Middie marketing site and the browser-only React prototype:
+
+- `/` — archived marketing site, including the waitlist, blog, legal pages, and analyzer
+- `/demo` — interactive React prototype
+
+The marketing site's images and fonts are stored locally in `site/site-assets`. Framer's browser runtime remains referenced for its generated interactions, including the Tally waitlist component.
 
 A standalone, browser-only React prototype designed to be deployed independently and linked or embedded from a Framer site.
 
@@ -25,6 +32,14 @@ npm run lint
 npm run typecheck
 npm run build
 ```
+
+To build the combined Cloudflare site:
+
+```bash
+npm run build:cloudflare
+```
+
+Cloudflare should deploy with `npx wrangler deploy`; the asset configuration is stored in `wrangler.jsonc`.
 
 ## Deploy to Vercel
 
